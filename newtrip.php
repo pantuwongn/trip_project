@@ -256,7 +256,7 @@
                         <p>Please choose your meeting location in the first day of your trip.</p>
                         <div class="col-md-12 col-sm-12">
                            <div id="map" style="height:400px; margin:0px;"></div>
-                          <textarea type="text" class="form-control" id="meeting_addr" /></textarea> Address of Meeting Point
+                          <textarea type="text" class="form-control" id="meeting_addr"></textarea> Address of Meeting Point
                           <input type="text" class="form-control" id="meeting_lat" hidden />
                           <input type="text" class="form-control" id="meeting_lng" hidden />
                         </div>
@@ -274,14 +274,8 @@
                             </div>
                             <div class="container" id="detail1">
                             <div class="row" style="margin:2px;">
-                                <div class="col-sm-3">
-                                <div class="form-group">
-                    <label class="label-control">Time Picker</label>
-                    <input type="text" class="form-control timepicker" value="14:00">
-                  </div>
-                                </div>
-                                <div class="col-sm-3"><input class="form-control" type="time" id="detail1-1-s" name="detail1-1-s">Start Time</div>                        
-                                <div class="col-sm-3"><input class="form-control" type="time" id="detail1-1-e" name="detail1-1-e">End Time</div>     
+                                <div class="col-sm-3"><input class="form-control timepicker" type="text" id="detail1-1-s" name="detail1-1-s">Start Time</div>                        
+                                <div class="col-sm-3"><input class="form-control timepicker" type="text" id="detail1-1-e" name="detail1-1-e">End Time</div>     
                                 <div class="col-sm-6"><textarea  type="text" class="form-control" id="detail1-1-t" rows="1"></textarea>Description</div>
                             </div>
                             </div>
@@ -697,8 +691,8 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
             var sId = "#detail"+day.toString()+"-"+det.toString()+"-s";
             var eId = "#detail"+day.toString()+"-"+det.toString()+"-e";
             var tId = "#detail"+day.toString()+"-"+det.toString()+"-t";
-            temp['start'] = $(sId).val();
-            temp['end'] = $(eId).val();
+            temp['start'] = $(sId).data('date');
+            temp['end'] = $(eId).data('date');
             temp['desc'] = $(tId).val();
             detail_data[day][det] = temp;
           }
@@ -722,7 +716,6 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
           data: form_detail,                   
           type: 'post',
           success: function(msg){
-            console.log(msg);
             if (msg.length<10){
                 $('#detailTab').removeClass('active');
                 $('#detail').removeClass('active');
@@ -742,13 +735,19 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
     var sId = "detail"+d.toString()+"-"+(p+1).toString()+"-s";
     var eId = "detail"+d.toString()+"-"+(p+1).toString()+"-e";
     var tId = "detail"+d.toString()+"-"+(p+1).toString()+"-t";
-    var fields = "<div class=\"row\" style=\"margin:2px\"><div class=\"col-sm-3\"><input class=\"form-control\" type=\"time\" id="+sId+" name="+sId+">Start Time</div><div class=\"col-sm-3\"><input class=\"form-control\" type=\"time\" id="+eId+" name="+eId+">End Time</div><div class=\"col-sm-6\"><textarea class=\"form-control\" id="+tId+" rows=\"1\"></textarea>Description</div></div>"
+    var fields = "<div class=\"row\" style=\"margin:2px\"><div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id="+sId+" name="+sId+">Start Time</div><div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id="+eId+" name="+eId+">End Time</div><div class=\"col-sm-6\"><textarea class=\"form-control\" id="+tId+" rows=\"1\"></textarea>Description</div></div>"
     $(wrapper).append(fields)
     detailArr[d].push(p+1);
     console.log(detailArr)
     var buttonId = "addPeriod-"+d.toString();
     var newP = p+1
     document.getElementById( buttonId ).setAttribute( "onClick", "javascript: addPeriod("+d.toString()+","+newP.toString()+");" );
+     //init DateTimePickers
+     materialKit.initFormExtendedDatetimepickers();
+
+// Sliders Init
+materialKit.initSliders();
+
 
   }
   function addDay(d){
@@ -762,11 +761,16 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
     var eId = "detail"+newDay.toString()+"-1-e";
     var tId = "detail"+newDay.toString()+"-1-t";
     var wrapper = $('#allDays');
-    var fields = "<br><div class=\"container\" style=\"border: 1px solid black;\"><div class=\"row\" style=\"margin:5px\"><h6>Detail for Day "+newDay.toString()+"</h6></div><div class=\"container\" id="+newId+"><div class=\"row\" style=\"margin:2px\"><div class=\"col-sm-3\"><input class=\"form-control\" type=\"time\" id="+sId+" name="+sId+">Start Time</div><div class=\"col-sm-3\"><input class=\"form-control\" type=\"time\" id="+eId+" name="+eId+">End Time</div><div class=\"col-sm-6\"><textarea class=\"form-control\" id="+tId+" rows=\"1\"></textarea>Description</div></div></div><div align=\"right\"><br/><button type=\"button\" class=\"btn btn-primary btn-sm\" id="+buttonId+" onclick="+funcName+">More Period</button></div></div>";
+    var fields = "<br><div class=\"container\" style=\"border: 1px solid black;\"><div class=\"row\" style=\"margin:5px\"><h6>Detail for Day "+newDay.toString()+"</h6></div><div class=\"container\" id="+newId+"><div class=\"row\" style=\"margin:2px\"><div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id="+sId+" name="+sId+">Start Time</div><div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id="+eId+" name="+eId+">End Time</div><div class=\"col-sm-6\"><textarea class=\"form-control\" id="+tId+" rows=\"1\"></textarea>Description</div></div></div><div align=\"right\"><br/><button type=\"button\" class=\"btn btn-primary btn-sm\" id="+buttonId+" onclick="+funcName+">More Period</button></div></div>";
     $(wrapper).append(fields);
     detailArr[newDay] = new Array();
     detailArr[newDay].push(1);
     console.log(detailArr);
+ //init DateTimePickers
+ materialKit.initFormExtendedDatetimepickers();
+
+// Sliders Init
+materialKit.initSliders();
 
 
   }
@@ -947,14 +951,22 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
 </script>
 
   <script>  
+    $(document).ready(function(){
+      //init DateTimePickers
+      materialKit.initFormExtendedDatetimepickers({format:"H:mm"});
+
+      // Sliders Init
+      materialKit.initSliders();
+    });
+    $(document).ready(function(){
+      $('select').niceSelect();
+    });
     var detailArr = {};
     $(document).ready(function() {
-      $(document).ready(function() {
-  $('select').niceSelect();
-});
-      
+
       detailArr[1] = new Array();
       detailArr[1].push(1);
+      console.log(detailArr);
 
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-46172202-1']);
@@ -998,6 +1010,7 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
       }
 
     });
+
   </script>
     <!--  Google Maps Plugin    -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVlIZSpzYkePXCjcm9xRHuFyL2DbKZY0Q&callback=myMap"></script>

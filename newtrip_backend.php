@@ -98,9 +98,11 @@
             $num_p = sizeof(array_keys($day_data));
             for($p=1;$p<=$num_p;$p++){
                 $start = $day_data[$p]["start"];
+                $start_ap = substr($start, -2);
                 $end = $day_data[$p]["end"];
+                $end_ap = substr($end,-2);
                 $desc = addslashes($day_data[$p]["desc"]);
-                $sql = "INSERT INTO trip_detail ( trip_id, trip_day, trip_detail_start, trip_detail_end, trip_detail_description ) VALUES ('".$trip_id."','".$d."','".$start."','".$end."','".$desc."')";
+                $sql = "INSERT INTO trip_detail ( trip_id, trip_day, trip_detail_start, trip_detail_end, trip_detail_start_ap, trip_detail_end_ap, trip_detail_description ) VALUES ('".$trip_id."','".$d."','".$start."','".$end."','".$start_ap."','".$end_ap."','".$desc."')";
                 if (!$conn->query($sql) === TRUE) {
                     $succues = FALSE;
                 }
@@ -109,7 +111,7 @@
         }
 
         if($succues){
-            echo "Success";
+            echo $start;
         }else{
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
