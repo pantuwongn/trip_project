@@ -8,10 +8,10 @@
         $users_user_id = $_POST['users_user_id'];
         $vehicle_id = $_POST['vehicle_id'];
         $trip_type_id = $_POST['trip_type_id'];
-        $trip_name = $_POST['trip_name'];
-        $trip_sum = $_POST['trip_sum'];
-        $trip_dest = $_POST['trip_dest'];
-        $trip_activity = $_POST['trip_activity'];
+        $trip_name = addslashes($_POST['trip_name']);
+        $trip_sum = addslashes($_POST['trip_sum']);
+        $trip_dest = addslashes($_POST['trip_dest']);
+        $trip_activity = addslashes($_POST['trip_activity']);
         $trip_cover = $_POST['trip_cover'];
 
         if($_SESSION['trip_id']===0)
@@ -99,7 +99,7 @@
             for($p=1;$p<=$num_p;$p++){
                 $start = $day_data[$p]["start"];
                 $end = $day_data[$p]["end"];
-                $desc = $day_data[$p]["desc"];
+                $desc = addslashes($day_data[$p]["desc"]);
                 $sql = "INSERT INTO trip_detail ( trip_id, trip_day, trip_detail_start, trip_detail_end, trip_detail_description ) VALUES ('".$trip_id."','".$d."','".$start."','".$end."','".$desc."')";
                 if (!$conn->query($sql) === TRUE) {
                     $succues = FALSE;

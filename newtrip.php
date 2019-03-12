@@ -274,6 +274,12 @@
                             </div>
                             <div class="container" id="detail1">
                             <div class="row" style="margin:2px;">
+                                <div class="col-sm-3">
+                                <div class="form-group">
+                    <label class="label-control">Time Picker</label>
+                    <input type="text" class="form-control timepicker" value="14:00">
+                  </div>
+                                </div>
                                 <div class="col-sm-3"><input class="form-control" type="time" id="detail1-1-s" name="detail1-1-s">Start Time</div>                        
                                 <div class="col-sm-3"><input class="form-control" type="time" id="detail1-1-e" name="detail1-1-e">End Time</div>     
                                 <div class="col-sm-6"><textarea  type="text" class="form-control" id="detail1-1-t" rows="1"></textarea>Description</div>
@@ -481,7 +487,7 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
   <!-- Js With initialisations For Demo Purpose, Don't Include it in Your Project -->
   <script src="./assets/demo/demo.js" type="text/javascript"></script>
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-  <script src="./assets/js/material-kit.js?v=2.1.1" type="text/javascript"></script>
+  <script src="./assets/js/material-kit.min.js?v=2.1.1" type="text/javascript"></script>
   <script src='dropzone.js' type='text/javascript'></script>
   <script src="js/jquery.nice-select.js"></script>
  
@@ -616,6 +622,7 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
         type: "POST",
         data: { "filename" : dict[file.name] },
         success: function(msg){
+          delete dict[file.name];
           //alert(msg);
         }
     });
@@ -763,6 +770,7 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
 
 
   }
+  var markerArr = new Array();
   function myMap() {
     var x = document.getElementById("map");
     console.log(x);
@@ -774,16 +782,22 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
     var map=new google.maps.Map(document.getElementById("map"),mapProp);
     var isClick=false;
     map.addListener('click', function(e) {
+      if(isClick){
+        markerArr[0].setMap(null);
+        markerArr = [];
+      }
+      placeMarker(e.latLng, map);
       if(!isClick){
-          placeMarker(e.latLng, map);
-          isClick=true;
+        isClick=true;
+        
       }
     });
   }
     function placeMarker(position, map) {
-        var marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
         position: position,
         map: map
+    
     });
     map.panTo(position);
     marker.setDraggable(true);
@@ -804,6 +818,8 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
     y.value = this.getPosition().lng();
     latlngChange();
 } );  
+   markerArr.push(marker);
+
   }
 
   function latlngChange()
