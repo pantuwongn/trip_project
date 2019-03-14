@@ -111,11 +111,56 @@
         }
 
         if($succues){
-            echo $start;
+            echo $success;
         }else{
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
 
+
+    }
+    else if (isset($_POST['tab']) && $_POST['tab']=='price'){
+
+        $price_food = $_POST['price_food'];
+        $price_extra = addslashes($_POST['price_extra']);
+        $price_max_pass = $_POST['price_max_pass'];
+        $price_type = $_POST['price_type'];
+        $price_unit = array();
+        $price_total = array();
+        $price_unit_array = json_decode($_POST['price_unit'],true);
+        $price_total_array = json_decode($_POST['price_total'],true);
+        for($i=0;$i<$price_max_pass;$i++){
+            array_push($price_unit, $price_unit_array[$i]);
+            array_push($price_total, $price_total_array[$i]);
+        }
+
+        if($_SESSION['trip_id']===0)
+        {
+            $sql = "INSERT INTO trips ( ) VALUES ()";
+            $conn->query($sql);
+            $_SESSION['trip_id'] = $conn->insert_id;
+            $trip_id = $_SESSION['trip_id'];
+        
+        }else{
+            $trip_id = $_SESSION['trip_id'];
+            $sql = "DELETE FROM trip_price where trip_id='".$trip_id."'";
+            $conn->query($sql);
+
+        }
+
+        $sql = "INSERT INTO trip_price (trip_id, price_food,price_extra, price_max_pass, price_type ";
+        for($i=1;$i<=$price_max_pass;$i++){
+            $sql = $sql.",price_unit".$i.", price_total".$i;
+        }
+        $sql = $sql.") VALUES ('".$trip_id."','".$price_food."','".$price_extra."','".$price_max_pass."','".$price_type."'";
+        for($i=1;$i<=$price_max_pass;$i++){
+            $sql = $sql.",'".$price_unit[$i-1]."','".$price_total[$i-1]."'";
+        }
+        $sql = $sql.")";
+        if ($conn->query($sql) === TRUE) {
+            echo "success";
+        }else{
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
 
     }
     $conn->close();

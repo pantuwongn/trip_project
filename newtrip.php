@@ -73,12 +73,12 @@
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#conditions" role="tab" data-toggle="conditionTab">
+                      <a class="nav-link" href="#conditions" role="tab" data-toggle="tab" id="conditionTab">
                          Conditions
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#submit" role="tab" data-toggle="submitTab">
+                      <a class="nav-link" href="#submit" role="tab" data-toggle="tab" id="submitTab">
                          Submit
                       </a>
                     </li>
@@ -434,9 +434,8 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                       </div>
                     </div>
                     <div class="tab-pane" id="conditions">
-                      Conditions content
-                      <br>
-                      <br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                    <label><input type="checkbox" name="checkbox" value="value"></label>
+                    <i class="fas fa-tshirt"></i>
                     </div>
                     <div class="tab-pane" id="submit">
                       Submit content
@@ -886,6 +885,38 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
         }
       }
 
+      var string_unit = JSON.stringify( unit_price );
+      var string_total = JSON.stringify( total_price );
+
+      var form_price = new FormData()
+      form_price.append('price_food', food_price);
+      form_price.append('price_extra', extra_expense);
+      form_price.append('price_max_pass', max_pass);
+      form_price.append('price_type', price_type);
+      form_price.append('price_unit',string_unit);
+      form_price.append('price_total',string_total);
+      form_price.append('tab','price');
+      $.ajax({
+          url: 'newtrip_backend.php', 
+          dataType: 'text',  // what to expect back from the PHP script, if anything
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: form_price,                   
+          type: 'post',
+          success: function(msg){
+            alert(msg);
+            if (msg.length<10){
+                $('#priceTab').removeClass('active');
+                $('#price').removeClass('active');
+                $('#conditionTab').addClass('active');
+                $('#conditions').addClass('active');
+            }else{
+                //alert("Error: " + msg);
+            }
+          }
+        });
+
     }
 
   function setPriceText(t)
@@ -957,6 +988,10 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
 
       // Sliders Init
       materialKit.initSliders();
+
+      $('.timepicker').datetimepicker({
+          format: 'HH:mm'
+      });
     });
     $(document).ready(function(){
       $('select').niceSelect();
