@@ -33,6 +33,145 @@
   <link rel="stylesheet" href="dist/mtr-datepicker.min.css">
   <link rel="stylesheet" href="dist/mtr-datepicker.default-theme.min.css">
   <link rel="stylesheet" href="css/nice-select.css">
+  <style>
+    input#smart_casual  {
+      display:none;
+    }
+ 
+    input#smart_casual + label
+    {
+      background: url("con-icon/01Gray.fw.png") no-repeat;
+      background-size: 50%;
+      height:250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input#smart_casual :checked + label
+    {
+      background: url("con-icon/01.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    
+    input#physical_strength  {
+      display:none;
+    }
+ 
+    input#physical_strength + label
+    {
+      background: url("con-icon/02Gray.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input#physical_strength :checked + label
+    {
+      background: url("con-icon/02.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+
+    input#vegan  {
+      display:none;
+    }
+ 
+    input#vegan + label
+    {
+      background: url("con-icon/03Gray.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input#vegan :checked + label
+    {
+      background: url("con-icon/03.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+
+    input#children  {
+      display:none;
+    }
+ 
+    input#children + label
+    {
+      background: url("con-icon/04Gray.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input#children :checked + label
+    {
+      background: url("con-icon/04.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+
+    input#flexible  {
+      display:none;
+    }
+ 
+    input#flexible + label
+    {
+      background: url("con-icon/05Gray.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input#flexible :checked + label
+    {
+      background: url("con-icon/05.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+
+    input#seasonal  {
+      display:none;
+    }
+ 
+    input#seasonal + label
+    {
+      background: url("con-icon/06Gray.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input#seasonal :checked + label
+    {
+      background: url("con-icon/06.fw.png") no-repeat;
+      background-size: 50%;
+      height: 250px;
+      width: 250px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+  </style>
 </head>
 
 <body class="normal-page sidebar-collapse">
@@ -73,12 +212,12 @@
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#conditions" role="tab" data-toggle="conditionTab">
+                      <a class="nav-link" href="#conditions" role="tab" data-toggle="tab" id="conditionTab">
                          Conditions
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#submit" role="tab" data-toggle="submitTab">
+                      <a class="nav-link" href="#submit" role="tab" data-toggle="tab" id="submitTab">
                          Submit
                       </a>
                     </li>
@@ -434,9 +573,52 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                       </div>
                     </div>
                     <div class="tab-pane" id="conditions">
-                      Conditions content
-                      <br>
-                      <br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                    <div class="row">
+                        <span class="input-group-text">
+                          <i class="material-icons">grain</i>  <h4>Extra Conditions</h4>
+                        </span>
+                    </div> 
+                    <div class="row">
+                        <a href="#" data-toggle="tooltip" title="Travelers need to wear appropriate outfits neutral colors, no sleeveless shirts and shorts.The dress code's featured most of these locations;temples, museum, or any official places.">
+                          <div class="col-md-4 col-sm-4" align="center">
+                              <input type='checkbox' name='smart_casual' value='1' id="smart_casual"/><label for="smart_casual"></label> 
+                          </div>
+                        </a>
+                        <a href="#" data-toggle="tooltip" title="Travelers need to be fit and firm, so it will be easier for them to complete your trip. Select this condition, if your trip featured these following activities; boxing, hiking, trekking, kayaking, rafting, etc.">
+                          <div class="col-md-4 col-sm-4" align="center">
+                           <input type='checkbox' name='physical_strength' value='1' id="physical_strength"/><label for="physical_strength"></label> 
+                          </div>
+                        </a>
+                        <a href="#" data-toggle="tooltip" title="Select this condition, if your trip has alternative choices for vegetable meals.">
+                        <div class="col-md-4 col-sm-4" align="center">
+                           <input type='checkbox' name='vegan' value='1' id="vegan"/><label for="vegan"></label> 
+                        </div>
+                        </a>
+                    </div>
+                    <div class="row">
+                        <a href="#" data-toggle="tooltip" title="Any activities that travelers can enjoy with their family members and is good with kids, such as going to an amusement park, watching a performance, joining a pottery workshop, etc, can be considered to this condition.">
+                          <div class="col-md-4 col-sm-4" align="center">
+                              <input type='checkbox' name='children' value='1' id="children"/><label for="children"></label> 
+                          </div>
+                        </a>
+                        <a href="#" data-toggle="tooltip" title="Although you stick to your listed itinerary, your trip may be adjusted accordingly to your travelers.">
+                          <div class="col-md-4 col-sm-4" align="center">
+                           <input type='checkbox' name='flexible' value='1' id="flexible"/><label for="flexible"></label> 
+                          </div>
+                        </a>
+                        <a href="#" data-toggle="tooltip" title="For any activities\u002F places of your trip can be accessed seasonally for example, trekking to the top of Khitchakut mountain, visiting a tropical fruit farm, sightseeing at a national park, and etc, please select this condition.">
+                        <div class="col-md-4 col-sm-4" align="center">
+                           <input type='checkbox' name='seasonal' value='1' id="seasonal"/><label for="seasonal"></label> 
+                        </div>
+                        </a>
+                    </div>
+                    <div class="row">
+                        <span class="input-group-text">
+                          <i class="material-icons">calendar_today</i>  <h4>Operting Days</h4>
+                        </span>
+                    </div> 
+                    <div class="row">
+                    </div>`
                     </div>
                     <div class="tab-pane" id="submit">
                       Submit content
