@@ -57,15 +57,17 @@
         for($i = 0; $i < sizeof($fileList); $i++)
         {
             $sql = "INSERT INTO trip_photo (trip_id,trip_photo_name) VALUES ('".$trip_id."','".$fileList[$i]."')";
-            if (!$conn->query($sql) === TRUE) 
+            if (!$conn->query($sql) === TRUE){
                 $succues = FALSE;
-
+                $err_sql = $sql;
+            }
+            
         }
 
         if($succues){
             echo "Success";
         }else{
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $err_sql . "<br>" . $conn->error;
         }
 
     }else if (isset($_POST['tab']) && $_POST['tab']=='detail'){
@@ -105,6 +107,7 @@
                 $sql = "INSERT INTO trip_detail ( trip_id, trip_day, trip_detail_start, trip_detail_end, trip_detail_start_ap, trip_detail_end_ap, trip_detail_description ) VALUES ('".$trip_id."','".$d."','".$start."','".$end."','".$start_ap."','".$end_ap."','".$desc."')";
                 if (!$conn->query($sql) === TRUE) {
                     $succues = FALSE;
+                    $err_sql = $sql;
                 }
 
             }
@@ -113,7 +116,7 @@
         if($succues){
             echo $success;
         }else{
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $err_sql . "<br>" . $conn->error;
         }
 
 
@@ -160,6 +163,48 @@
             echo "success";
         }else{
             echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+
+    }else if (isset($_POST['tab']) && $_POST['tab']=='condition'){
+
+        $casual = $_POST['casual'];
+        $physical = $_POST['physical'];
+        $vegan = $_POST['vegan'];
+        $children = $_POST['children'];
+        $flexible = $_POST['flexible'];
+        $seasonal = $_POST['seasonal'];
+        $dates = explode(",",$_POST['dates']);
+        
+        if($_SESSION['trip_id']===0)
+        {
+            $sql = "INSERT INTO trips (trip_condition_casual, trip_condition_physical, trip_condition_vegan, trip_condition_children, trip_condition_flexible, trip_condition_seasonal) VALUES ('".$casual."','".$physical."','".$vegan."','".$children."','".$flexible."','".$seasonal."')";
+            $conn->query($sql);
+            $_SESSION['trip_id'] = $conn->insert_id;
+            $trip_id = $_SESSION['trip_id'];
+        
+        }else{
+            $trip_id = $_SESSION['trip_id'];
+            $sql = "UPDATE trips SET trip_condition_causal='".$casual."', trip_condition_physical='".$physical."', trip_condition_vegan='".$vegan."', trip_condition_children='".$children."', trip_condition_flexible='".$flexible."', trip_condition_seasonal='".$seasonal."'";
+            $conn->query($sql);
+
+        }
+
+        $sql = "DELETE FROM trip_date where trip_id='".$trip_id."'";
+       $conn->query($sql);
+
+        $succues = TRUE;
+        for($i=0;$i<sizeof($dates);$i++){
+            $sql = "INSERT INTO trip_date (trip_id, trip_date) VALUES ('".$trip_id."',STR_TO_DATE('".$dates[$i]."','%m/%d/%Y'))";
+            if ($conn->query($sql) === FALSE) {
+                $succues = FALSE;
+                $err_sql = $sql;
+            }
+        }
+        
+        if ($succues) {
+            echo "success";
+        }else{
+            echo "Error: " . $err_sql . "<br>" . $conn->error;
         }
 
     }

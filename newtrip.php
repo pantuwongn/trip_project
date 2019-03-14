@@ -33,7 +33,12 @@
   <link rel="stylesheet" href="dist/mtr-datepicker.min.css">
   <link rel="stylesheet" href="dist/mtr-datepicker.default-theme.min.css">
   <link rel="stylesheet" href="css/nice-select.css">
+  <link rel="stylesheet" href="css/jquery-ui.multidatespicker.css">
+  <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
   <style>
+    .ui-datepicker {
+width: 100%; /*what ever width you want*/
+}
     input[name="smart_casual"]  {
       display:none;
     }
@@ -579,7 +584,7 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                         </span>
                     </div> 
                     <div class="row">
-                        <div data-toggle="tooltip" title="Travelers need to wear appropriate outfits neutral colors, no sleeveless shirts and shorts.The dress code's featured most of these locations;temples, museum, or any official places.">
+                        <div data-toggle="tooltip" title="Travelers need to wear appropriate outfits neutral colors, no sleeveless shirts and shorts.&#13;The dress code's featured most of these locations;temples, museum, or any official places.">
                           <div class="col-md-4 col-sm-4" align="center">
                               <input type='checkbox' name='smart_casual' value='1' id="smart_casual"/><label for="smart_casual"></label> 
                           </div>
@@ -606,7 +611,7 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                            <input type='checkbox' name='flexible' value='1' id="flexible"/><label for="flexible"></label> 
                           </div>
                         </div>
-                        <div data-toggle="tooltip" title="For any activities\u002F places of your trip can be accessed seasonally for example, trekking to the top of Khitchakut mountain, visiting a tropical fruit farm, sightseeing at a national park, and etc, please select this condition.">
+                        <div data-toggle="tooltip" title="For any activities places of your trip can be accessed seasonally for example, trekking to the top of Khitchakut mountain, visiting a tropical fruit farm, sightseeing at a national park, and etc, please select this condition.">
                         <div class="col-md-4 col-sm-4" align="center">
                            <input type='checkbox' name='seasonal' value='1' id="seasonal"/><label for="seasonal"></label> 
                         </div>
@@ -618,12 +623,41 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                         </span>
                     </div> 
                     <div class="row">
-                    </div>`
+                      <div class="col-sm-12 col-md-12">
+                          <div id="datePick"></div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12" >
+                        <br>
+                        <div align="right">
+                            <div class="text-center">
+                                  <a (click)="newTrip()" class="btn btn-success btn-round float-right" onclick='newtrip_condition()'>Save</a>
+                            </div>
+                            <div class="text-center">
+                                  <a [routerLink]="['/gtrips']" routerLinkActive="active" class="btn btn-success btn-round float-right" onclick="backFromCondition()">Back</a>
+                            </div>
+                        </div>
+                      </div>
                     </div>
                     <div class="tab-pane" id="submit">
-                      Submit content
-                      <br>
-                      <br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                    <div class="row">
+                        <span class="input-group-text">
+                          <i class="material-icons">check_circle</i>  <h4>Submit Your Trip</h4>
+                        </span>
+                    </div> 
+                    <div class="row">
+                    To complete your trip listing
+When you've completed your trip listing, click 'Submit for approval'. Your trip will be under our review process. Please allow us 3-7 business days to review your listing trip and send you a feedback. Please check your inbox regularly for our email and follow our suggestion to modify your listing. As quality trips are our priority, we only approve trips that meet our standards. Thank you for your kind understanding, and for helping our travelers explore our beautiful Thailand.
+</div>
+<div class="col-md-12 col-sm-12" >
+                        <br>
+                        <div align="right">
+                            <div class="text-center">
+                                  <a (click)="newTrip()" class="btn btn-success btn-round float-right" onclick='newtrip_submit()'>Submit</a>
+                            </div>
+                           
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>                                                           
@@ -636,6 +670,7 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
   <?php include('footer.php'); ?>
   <!--   Core JS Files   -->
   <script src="./assets/js/core/jquery.min.js" type="text/javascript"></script>
+  <script src="./assets/js/core/ "
   <script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
   <script src="./assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
   <script src="./assets/js/plugins/moment.min.js"></script>
@@ -666,7 +701,9 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
   <script src="./assets/js/material-kit.min.js?v=2.1.1" type="text/javascript"></script>
   <script src='dropzone.js' type='text/javascript'></script>
   <script src="js/jquery.nice-select.js"></script>
- 
+  <script src="js/jquery-ui.multidatespicker.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="http://multidatespickr.sourceforge.net/jquery-ui.multidatespicker.js"></script>
   <!-- first tab: basic -->
   <script>
 
@@ -1088,14 +1125,14 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
           data: form_price,                   
           type: 'post',
           success: function(msg){
-            alert(msg);
+           // alert(msg);
             if (msg.length<10){
                 $('#priceTab').removeClass('active');
                 $('#price').removeClass('active');
                 $('#conditionTab').addClass('active');
                 $('#conditions').addClass('active');
             }else{
-                //alert("Error: " + msg);
+                alert("Error: " + msg);
             }
           }
         });
@@ -1164,6 +1201,90 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
   }
 </script>
 
+<!-- fifth tab:condition -->
+<script>
+
+function backFromCondition(){
+      $('#priceTab').addClass('active');
+      $('#price').addClass('active');
+      $('#conditionTab').removeClass('active');
+      $('#conditions').removeClass('active');
+    }
+
+  function newtrip_condition()
+  {
+    if ($('#smart_casual:checked').val()){
+      var smart_casual = 1;
+    }else{
+      var smart_casual = 0;
+    }
+    if ($('#physical_strength:checked').val()){
+      var physical_strength = 1;
+    }else{
+      var physical_strength = 0;
+    }
+    if ($('#vegan:checked').val()){
+      var vegan = 1;
+    }else{
+      var vegan = 0;
+    }
+    if ($('#children:checked').val()){
+      var children = 1;
+    }else{
+      var children = 0;
+    }
+    if ($('#flexible:checked').val()){
+      var flexible = 1;
+    }else{
+      var flexible = 0;
+    }
+    if ($('#seasonal:checked').val()){
+      var seasonal = 1;
+    }else{
+      var seasonal = 0;
+    }
+    var dates = $('#datePick').multiDatesPicker('value');
+  
+    var from_condition = new FormData()
+      from_condition.append('casual', smart_casual);
+      from_condition.append('physical', physical_strength);
+      from_condition.append('vegan', vegan);
+      from_condition.append('children', children);
+      from_condition.append('flexible',flexible);
+      from_condition.append('seasonal',seasonal);
+      from_condition.append('dates',dates);
+      from_condition.append('tab','condition');
+      $.ajax({
+          url: 'newtrip_backend.php', 
+          dataType: 'text',  // what to expect back from the PHP script, if anything
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: from_condition,                   
+          type: 'post',
+          success: function(msg){
+            alert(msg);
+            if (msg.length<10){
+                $('#conditionTab').removeClass('active');
+                $('#conditions').removeClass('active');
+                $('#submitTab').addClass('active');
+                $('#submit').addClass('active');
+            }else{
+                //alert("Error: " + msg);
+            }
+          }
+        });
+
+    
+  }
+</script>
+
+<!-- sixth tab: submit -->
+<script>
+function newtrip_submit(){
+  window.location='submit.php';
+}
+</script>
   <script>  
     $(document).ready(function(){
       //init DateTimePickers
@@ -1176,6 +1297,9 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
           format: 'HH:mm'
       });
     });
+    $(document).ready(function(){
+    $('#datePick').multiDatesPicker();
+});
     $(document).ready(function(){
       $('select').niceSelect();
     });
