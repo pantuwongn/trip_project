@@ -1068,6 +1068,38 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
         }
       }
 
+      var string_unit = JSON.stringify( unit_price );
+      var string_total = JSON.stringify( total_price );
+
+      var form_price = new FormData()
+      form_price.append('price_food', food_price);
+      form_price.append('price_extra', extra_expense);
+      form_price.append('price_max_pass', max_pass);
+      form_price.append('price_type', price_type);
+      form_price.append('price_unit',string_unit);
+      form_price.append('price_total',string_total);
+      form_price.append('tab','price');
+      $.ajax({
+          url: 'newtrip_backend.php', 
+          dataType: 'text',  // what to expect back from the PHP script, if anything
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: form_price,                   
+          type: 'post',
+          success: function(msg){
+            alert(msg);
+            if (msg.length<10){
+                $('#priceTab').removeClass('active');
+                $('#price').removeClass('active');
+                $('#conditionTab').addClass('active');
+                $('#conditions').addClass('active');
+            }else{
+                //alert("Error: " + msg);
+            }
+          }
+        });
+
     }
 
   function setPriceText(t)
@@ -1139,6 +1171,10 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
 
       // Sliders Init
       materialKit.initSliders();
+
+      $('.timepicker').datetimepicker({
+          format: 'HH:mm'
+      });
     });
     $(document).ready(function(){
       $('select').niceSelect();
