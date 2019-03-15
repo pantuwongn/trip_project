@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2019 at 05:40 PM
+-- Generation Time: Mar 15, 2019 at 07:01 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -55,15 +55,21 @@ CREATE TABLE `trips` (
 --
 
 INSERT INTO `trips` (`trip_id`, `trip_type_id`, `vehicle_id`, `users_user_id`, `trip_name`, `trip_sum`, `trip_dest`, `trip_activity`, `trip_cover`, `trip_num_day`, `trip_meeting_addr`, `trip_meeting_lat`, `trip_meeting_lng`, `trip_condition_casual`, `trip_condition_physical`, `trip_condition_vegan`, `trip_condition_children`, `trip_condition_flexible`, `trip_condition_seasonal`) VALUES
-(8, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(10, 2, 3, 'grW03pe8WvT6H6802NMmKgmNFb82', 'a', 'b', 'c', 'd', '5c82488508719.jpeg', 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(11, 0, 0, '', '', '', '', '', '', 1, 'Unnamed Road, Tambon Bang Ta Then, Amphoe Song Phi Nong, Chang Wat Suphan Buri 73190, Thailand', 14.171197204970321, 100.17162350000001, 0, 0, 0, 0, 0, 0),
-(12, 1, 1, 'grW03pe8WvT6H6802NMmKgmNFb82', '', '', '', '', '5c86acf2ce294.jpg', 1, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(13, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(14, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(15, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 0, 1, 0, 0, 1, 0),
-(16, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(17, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 0, 0, 0, 0, 1, 1);
+(8, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(10, 2, 3, 'grW03pe8WvT6H6802NMmKgmNFb82', 'a', 'b', 'c', 'd', '5c82488508719.jpeg', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(11, 0, 0, '', '', '', '', '', '', 1, 'Unnamed Road, Tambon Bang Ta Then, Amphoe Song Phi Nong, Chang Wat Suphan Buri 73190, Thailand', 14.171197204970321, 100.17162350000001, 1, 1, 1, 1, 1, 1),
+(12, 1, 1, 'grW03pe8WvT6H6802NMmKgmNFb82', '', '', '', '', '5c86acf2ce294.jpg', 1, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(13, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(14, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(15, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(16, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(17, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(18, 3, 0, 'grW03pe8WvT6H6802NMmKgmNFb82', 'Test Trip Name', 'Test Trip Summary', 'Test Trip To', 'Test Trip Activity by Boat for Medical Trip', '5c8a961c8697d.jpg', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(19, 2, 5, 'grW03pe8WvT6H6802NMmKgmNFb82', 'Business Trip', 'With', 'Public', 'Many Activity', '5c8a975b18ca0.PNG', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(20, 2, 4, 'lOD3Dftx7LUASpyDRtqpbxtYTu32', 'Trip to buy pigs', 'We need many pigs for our agricultural business.', 'Naknon Pathom', 'Catch Pig', '5c8b65f91376b.jpg', 2, 'Unnamed Road, Tambon Nong Din Daeng, Amphoe Mueang Nakhon Pathom, Chang Wat Nakhon Pathom 73000, Thailand', 13.790558347961078, 99.98596039690483, 1, 1, 1, 1, 1, 1),
+(21, 0, 0, '', '', '', '', '', '', 2, 'Unnamed Road, Tambon Rasom, Amphoe Uthai, Chang Wat Phra Nakhon Si Ayutthaya 13140, Thailand', 14.384136700560756, 100.76488521875001, 1, 1, 1, 1, 1, 1),
+(22, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
+(23, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -82,7 +88,15 @@ CREATE TABLE `trip_date` (
 
 INSERT INTO `trip_date` (`trip_id`, `trip_date`) VALUES
 (17, '2019-03-27'),
-(17, '2019-03-29');
+(17, '2019-03-29'),
+(20, '2019-03-27'),
+(20, '2019-03-29'),
+(20, '2019-03-31'),
+(20, '2019-04-01'),
+(21, '0000-00-00'),
+(22, '0000-00-00'),
+(23, '2019-03-03'),
+(23, '2019-03-27');
 
 -- --------------------------------------------------------
 
@@ -106,7 +120,13 @@ CREATE TABLE `trip_detail` (
 
 INSERT INTO `trip_detail` (`trip_id`, `trip_day`, `trip_detail_start`, `trip_detail_end`, `trip_detail_start_ap`, `trip_detail_end_ap`, `trip_detail_description`) VALUES
 (11, 1, '02:01:00', '15:02:00', '', '', 'descript'),
-(12, 1, '00:00:00', '00:00:00', '', '', '');
+(12, 1, '00:00:00', '00:00:00', '', '', ''),
+(21, 1, '03:56:00', '03:56:00', 'PM', 'PM', 'ssws'),
+(21, 2, '03:56:00', '03:56:00', 'PM', 'PM', 'aaa'),
+(21, 2, '03:56:00', '03:56:00', 'PM', 'PM', 'aaaa'),
+(20, 1, '09:45:00', '10:47:00', 'AM', 'AM', 'Meeting on the first day ee'),
+(20, 1, '10:44:00', '06:45:00', 'AM', 'AM', 'Go to catch pig a'),
+(20, 2, '03:46:00', '06:46:00', 'AM', 'AM', 'Eat pig on day2');
 
 -- --------------------------------------------------------
 
@@ -118,6 +138,15 @@ CREATE TABLE `trip_photo` (
   `trip_id` int(11) NOT NULL,
   `trip_photo_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `trip_photo`
+--
+
+INSERT INTO `trip_photo` (`trip_id`, `trip_photo_name`) VALUES
+(19, '5c8a9a831da88.jpg'),
+(20, '5c8b65fdac9ab.png'),
+(20, '5c8b660114fc6.jpg');
 
 -- --------------------------------------------------------
 
@@ -155,7 +184,8 @@ CREATE TABLE `trip_price` (
 
 INSERT INTO `trip_price` (`trip_id`, `price_food`, `price_extra`, `price_max_pass`, `price_type`, `price_unit1`, `price_total1`, `price_unit2`, `price_total2`, `price_unit3`, `price_total3`, `price_unit4`, `price_total4`, `price_unit5`, `price_total5`, `price_unit6`, `price_total6`, `price_unit7`, `price_total7`, `price_unit8`, `price_total8`) VALUES
 (13, 'included', '', 1, 'basic', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(14, 'excluded', 'eteteasdf', 4, 'advance', 1, 1, 2, 4, 3, 9, 4, 16, 0, 0, 0, 0, 0, 0, 0, 0);
+(14, 'excluded', 'eteteasdf', 4, 'advance', 1, 1, 2, 4, 3, 9, 4, 16, 0, 0, 0, 0, 0, 0, 0, 0),
+(20, 'included', 'Bring money to buy pig aa', 4, 'advance', 1, 1, 2, 4, 3, 9, 4, 16, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -218,7 +248,7 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phon
 (39, 'Natapon', 'Pantuwong', 'pantuwong@gmail.com', NULL, NULL, '2019-03-04 22:03:24', NULL, '1', NULL, NULL, NULL, NULL, 'https://lh6.googleusercontent.com/-jYpRVFUx77Y/AAAAAAAAAAI/AAAAAAAAIjQ/29yQhGLbuXI/photo.jpg', NULL, 'grW03pe8WvT6H6802NMmKgmNF', NULL, '10961684', NULL, NULL, 1, NULL, '2019-03-12 01:42:54'),
 (40, 'Thai', 'Annotation', 'thai.annotation@gmail.com', NULL, NULL, '2019-03-04 23:00:54', NULL, '1', NULL, NULL, NULL, NULL, 'https://lh5.googleusercontent.com/-ywUV-hXxnDs/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3re97v5CRiVovII2i30d0Q6sN1BzIA/mo/photo.jpg', NULL, 'SMc85zDzFlRySaAOKzJEzWYDW', NULL, '10272188', NULL, NULL, 1, NULL, '2019-03-04 23:02:01'),
 (41, 'worker Vendor', 'Mu', 'mu-733e18@sdoperapera.com', NULL, NULL, '2019-03-07 23:46:53', NULL, '1', NULL, NULL, NULL, NULL, 'https://lh3.googleusercontent.com/-hinkVthho5c/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdYXXNUZgsDyrY2leFFJ-9j9iNHDQ/mo/photo.jpg', NULL, 'ExbJqOcUJ8gzRI4WPFhAdHFOe', NULL, '10107395', NULL, NULL, 1, NULL, '2019-03-07 23:47:37'),
-(42, 'Natapon', 'Pantuwong', 'pantuwongn@gmail.com', NULL, NULL, '2019-03-08 15:13:21', NULL, '1', NULL, NULL, NULL, NULL, 'https://lh3.googleusercontent.com/-Tcw4BHiHIjY/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdPawiKyi-Tb2Ucyz4YZb-e10oxrw/mo/photo.jpg', NULL, 'lOD3Dftx7LUASpyDRtqpbxtYT', NULL, '10930270', NULL, NULL, 1, NULL, '2019-03-08 15:13:21');
+(42, 'Natapon', 'Pantuwong', 'pantuwongn@gmail.com', NULL, NULL, '2019-03-08 15:13:21', NULL, '1', NULL, NULL, NULL, NULL, 'https://lh3.googleusercontent.com/-Tcw4BHiHIjY/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdPawiKyi-Tb2Ucyz4YZb-e10oxrw/mo/photo.jpg', NULL, 'lOD3Dftx7LUASpyDRtqpbxtYT', NULL, '10930270', NULL, NULL, 1, NULL, '2019-03-15 13:41:42');
 
 -- --------------------------------------------------------
 
@@ -298,7 +328,7 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `trips`
 --
 ALTER TABLE `trips`
-  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `trip_type`
