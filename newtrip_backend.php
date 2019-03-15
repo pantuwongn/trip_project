@@ -194,11 +194,11 @@
         
         }else{
             $trip_id = $_SESSION['trip_id'];
-            $sql = "UPDATE trips SET trip_condition_causal='".$casual."', trip_condition_physical='".$physical."', trip_condition_vegan='".$vegan."', trip_condition_children='".$children."', trip_condition_flexible='".$flexible."', trip_condition_seasonal='".$seasonal."'";
+            $sql = "UPDATE trips SET trip_condition_casual='".$casual."', trip_condition_physical='".$physical."', trip_condition_vegan='".$vegan."', trip_condition_children='".$children."', trip_condition_flexible='".$flexible."', trip_condition_seasonal='".$seasonal."'";
             $conn->query($sql);
 
         }
-
+     
         $sql = "DELETE FROM trip_date where trip_id='".$trip_id."'";
        $conn->query($sql);
 

@@ -24,12 +24,72 @@
       $trip_sum = $data['trip_sum'];
       $trip_activity = $data['trip_activity'];
       $trip_cover = $data['trip_cover'];
+      $trip_meeting_addr = $data['trip_meeting_addr'];
+      $trip_meeting_lat = $data['trip_meeting_lat'];
+      $trip_meeting_lng = $data['trip_meeting_lng'];
+      $trip_condition_casual = $data['trip_condition_casual'];
+      $trip_condition_physical = $data['trip_condition_physical'];
+      $trip_condition_vegan = $data['trip_condition_vegan'];
+      $trip_condition_children = $data['trip_condition_children'];
+      $trip_condition_flexible = $data['trip_condition_flexible'];
+      $trip_condition_seasonal  = $data['trip_condition_seasonal'];
 
       $sql = "SELECT * from trip_photo WHERE trip_id='".$_SESSION['trip_id']."'";
       $result = $conn->query($sql);
       $photo_arr = array();
       while($row = $result->fetch_assoc()) {
         array_push($photo_arr,$row['trip_photo_name']);
+      }
+
+      $sql = "SELECT * from trip_detail WHERE trip_id='".$_SESSION['trip_id']."'";
+      $result = $conn->query($sql);
+      $trip_detail = array();
+      while($row=$result->fetch_assoc()){
+        $trip_day = $row['trip_day'];
+        $trip_detail_start = $row['trip_detail_start'];
+        $trip_detail_start_ap = $row['trip_detail_start_ap'];
+        $trip_detail_end = $row['trip_detail_end'];
+        $trip_detail_end_ap = $row['trip_detail_end_ap'];
+        $trip_detail_description = $row['trip_detail_description'];
+        if( !array_key_exists($trip_day,$trip_detail) ){
+            $trip_detail[$trip_day] = array();
+        }
+        $detail = array('trip_detail_start'=>$trip_detail_start, 'trip_detail_start_ap'=>$trip_detail_start_ap, 'trip_detail_end'=>$trip_detail_end, 'trip_detail_end_ap'=>$trip_detail_end_ap, 'trip_detail_description'=>$trip_detail_description);
+        array_push($trip_detail[$trip_day], $detail);
+      }
+
+      $sql = "SELECT * from trip_price WHERE trip_id='".$_SESSION['trip_id']."'";
+      $result = $conn->query($sql);
+      $data = $result->fetch_assoc();
+      $price_food = $data['price_food'];
+      $price_extra = $data['price_extra'];
+      $price_max_pass = $data['price_max_pass'];
+      $price_type = $data['price_type'];
+      $price_unit1 = $data['price_unit1'];
+      $price_total1 = $data['price_total1'];
+      $price_unit2 = $data['price_unit2'];
+      $price_total2 = $data['price_total2'];
+      $price_unit3 = $data['price_unit3'];
+      $price_total3 = $data['price_total3'];
+      $price_unit4 = $data['price_unit4'];
+      $price_total4 = $data['price_total4'];
+      $price_unit5 = $data['price_unit5'];
+      $price_total5 = $data['price_total5'];
+      $price_unit6 = $data['price_unit6'];
+      $price_total6 = $data['price_total6'];
+      $price_unit7 = $data['price_unit7'];
+      $price_total7 = $data['price_total7'];
+      $price_unit8 = $data['price_unit8'];
+      $price_total8 = $data['price_total8'];
+
+      $sql = "SELECT * from trip_date WHERE trip_id='".$_SESSION['trip_id']."'";
+      $result = $conn->query($sql);
+      $date_array = array();
+      while($row=$result->fetch_assoc()){
+        $d = $row['trip_date'];
+        $data = explode('-',$d);
+        $d1 = $data[1]."/".$data[2]."/".$data[0];
+        array_push($date_array,$d1);
       }
     }
     
@@ -299,16 +359,16 @@ width: 100%; /*what ever width you want*/
                                 <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==3) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="van"
                                   value="van" />
                                 <label class="drinkcard-cc van" for="van"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==5) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="motorbike"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==4) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="motorbike"
                                   value="motorbike" />
                                 <label class="drinkcard-cc motorbike" for="motorbike"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==6) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="bike"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==5) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="bike"
                                   value="bike" />
                                 <label class="drinkcard-cc bike" for="bike"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==7) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="boat"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==6) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="boat"
                                   value="boat" /> 
                                 <label class="drinkcard-cc boat" for="boat"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==8) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="public"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==7) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="public"
                                   value="public" />
                                 <label class="drinkcard-cc public" for="public"></label>
                               </div>
@@ -451,22 +511,56 @@ width: 100%; /*what ever width you want*/
                       </div>
                       <div class="col-md-12 col-sm-12">
                         <div class="container" id="allDays">
-                          <div class="container" style="border: 1px solid black;">
-                            <div class="row" style="margin:5px">
-                              <h6>Detail for Day 1</h6>
-                            </div>
-                            <div class="container" id="detail1">
-                            <div class="row" style="margin:2px;">
-                                <div class="col-sm-3"><input class="form-control timepicker" type="text" id="detail1-1-s" name="detail1-1-s">Start Time</div>                        
-                                <div class="col-sm-3"><input class="form-control timepicker" type="text" id="detail1-1-e" name="detail1-1-e">End Time</div>     
-                                <div class="col-sm-6"><textarea  type="text" class="form-control" id="detail1-1-t" rows="1"></textarea>Description</div>
-                            </div>
-                            </div>
-                            <div align="right">
-                              <br/>
-                              <button type="button" class="btn btn-primary btn-sm" id="addPeriod-1" onclick="addPeriod(1,1);">More Period</button>
-                            </div>
-                          </div>
+                        <?php
+                          if($edit===0){
+
+                            echo "<div class=\"container\" style=\"border: 1px solid black;\">";
+                            echo    "<div class=\"row\" style=\"margin:5px\">";
+                            echo        "<h6>Detail for Day 1</h6>";
+                            echo    "</div>";
+                            echo    "<div class=\"container\" id=\"detail1\">";
+                            echo      "<div class=\"row\" style=\"margin:2px;\">";
+                            echo         "<div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id=\"detail1-1-s\" name=\"detail1-1-s\">Start Time</div>";                        
+                            echo         "<div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id=\"detail1-1-e\" name=\"detail1-1-e\">End Time</div>";     
+                            echo          "<div class=\"col-sm-6\"><textarea  type=\"text\" class=\"form-control\" id=\"detail1-1-t\" rows=\"1\"></textarea>Description</div>";
+                            echo        "</div>";
+                            echo       "</div>";
+                            echo      "<div align=\"right\">";
+                            echo     "<br/>";
+                            echo    "<button type=\"button\" class=\"btn btn-primary btn-sm\" id=\"addPeriod-1\" onclick=\"addPeriod(1,1);\">More Period</button>";
+                            echo   "</div>";
+                            echo  "</div>";
+                          }else{
+                            $numday = sizeof(array_keys($trip_detail));
+                            for($d=1;$d<=$numday;$d++){
+                              if($d>1){
+                                echo "<br>";
+                              }
+                              echo "<div class=\"container\" style=\"border: 1px solid black;\">";
+                              echo    "<div class=\"row\" style=\"margin:5px\">";
+                              echo        "<h6>Detail for Day ".$d."</h6>";
+                              echo    "</div>";
+                              echo    "<div class=\"container\" id=\"detail".$d."\">";
+                              $details = $trip_detail[$d];
+                              for($p=1;$p<=sizeof($details);$p++){
+                                $start_time = $details[$p-1]['trip_detail_start']." ".$details[$p-1]['trip_detail_start_ap'];
+                                $end_time = $details[$p-1]['trip_detail_end']." ".$details[$p-1]['trip_detail_end_ap']; 
+                                echo      "<div class=\"row\" style=\"margin:2px;\">";
+                                echo         "<div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id=\"detail".$d."-".$p."-s\" name=\"detail".$d."-".$p."-s\" value=".$start_time.">Start Time</div>";                        
+                                echo         "<div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id=\"detail".$d."-".$p."-e\" name=\"detail".$d."-".$p."-e\" value=".$end_time.">End Time</div>";     
+                                echo          "<div class=\"col-sm-6\"><textarea  type=\"text\" class=\"form-control\" id=\"detail".$d."-".$p."-t\" rows=\"1\">".$details[$p-1]['trip_detail_description']."</textarea>Description</div>";
+                                echo        "</div>";
+                              }
+                              echo       "</div>";
+                              echo      "<div align=\"right\">";
+                              echo     "<br/>";
+                              $newP = sizeof($details);
+                              echo    "<button type=\"button\" class=\"btn btn-primary btn-sm\" id=\"addPeriod-".$d."\" onclick=\"addPeriod(".$d.",".$newP.");\">More Period</button>";
+                              echo   "</div>";
+                              echo  "</div>";
+                            }
+                          }
+                          ?>
                         </div>
                         <div align="right">
                             <br/>
@@ -487,107 +581,207 @@ width: 100%; /*what ever width you want*/
                     </div>
 
                     <div class="tab-pane" id="price">
-                    <div class="row">
-                        <span class="input-group-text">
-                          <i class="material-icons">attach_money</i>  <h4>Price</h4>
-                        </span>
-                        <br>
-                        <p>Please, use these price conditions as guides to calculate your trip fee and always make sure to inform your travelers about any additional expenses before the trip day.</p><br/>
-                      </div>
-                    <div  class="col-md-12 col-sm-12">
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="price" id="food_included" value="food_included" checked onclick="setPriceText('include');"> All Inclusive
-                              <span class="circle">
-                                <span class="check"></span>
-                             </span>
-                          </label>
-                      </div>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="price" id="food_excluded" value="food_excluded" onclick="setPriceText('exclude');" > Food Excluded
-                            <span class="circle">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                      </div>
-                      <div class=container id='price_text'>
-                      <i class="material-icons">local_dining</i>&nbsp;<i class="material-icons">subway</i>&nbsp;<i class="material-icons">local_offer</i>
-                        <p>Expenses, occur during a trip, are mainly included <br/>                     
-                          - Public or private transportation fares : taxi, bts, mrt, etc.(Please estimate the cost of gasoline or vehicle rental fee, in case of using a private car) <br/>
-                          - Foods; Meal(s) during the trip. (Please note that alcohol is always excluded) <br/>
-                          - Admission fee: Amusement park, gallery, shows, and etc.
-                        </p>
-                      </div>
-                      <hr>
                       <div class="row">
-                        <span class="input-group-text">
-                          <i class="material-icons">attach_money</i>  <h4>Extra expense travelers should prepare</h4>
-                        </span>
-                        <br>
-                        <p>Are there any extra expenses that travelers have to pay during the trip?</p>
-                      </div>
-                        
-                        <div class="col-md-12 col-sm-12" >
-                          <br/>
-                          <textarea type="text" class="form-control" id="extra_expense" placeholder="e.g. your pocket money" /></textarea> 
+                        <div class="col-sm-12 col-md-12">
+                            <span class="input-group-text">
+                              <i class="material-icons">attach_money</i>  <h4>Price</h4>
+                            </span>
+                            <br>
+                            <p>Please, use these price conditions as guides to calculate your trip fee and always make sure to inform your travelers about any additional expenses before the trip day.</p><br/>
                         </div>
-                        <hr>
-                     <div class="row">
-                     <div class="col-md-12 col-sm-12" >
-                        <span class="input-group-text">
-                          <i class="material-icons">people</i>  <h4>Maximum travelers</h4>
-                        </span>
-                      </div>
-                      <div class="col-md-12 col-sm-12">
-                          <select id="num_travelers" onchange="change_num_pass();">
-                              <option value="1">1 Person </option>
-                              <option value="2">2 Person</option>
-                              <option value="3">3 Person</option>
-                               <option value="4">4 Person</option>
-                               <option value="5">5 Person</option>
-                              <option value="6">6 Person</option>
-                              <option value="7">7 Person</option>
-                               <option value="8">8 Person</option>
-                          </select>
-                      </div> 
-                      </div>
-                      <hr> 
-                      <div class="row">
-                        <span class="input-group-text">
-                          <i class="material-icons">attach_money</i>  <h4>Pricing Method</h4>
-                        </span>
-                        <br>
-                      </div>
-                      <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                      <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="price_type" id="basic_price" value="basic_price" checked onclick="setPriceCal('basic');"> Basic Pricing
-                              <span class="circle">
-                                <span class="check"></span>
-                             </span>
-                          </label>
-                      </div>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="price_type" id="advance_price" value="advance_price" onclick="setPriceCal('advance');" > Advance Pricing
-                            <span class="circle">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                      </div>
-                      </div>
-                      <div class="col-md-6 col-sm-6">
-                        <div class="container" id="price_cal">
-                          <div class="card">
-                            <div class="card-content">
-                              <div class="row" style="margin:2px;">
-                                <div class="col-md-6 col-sm-6"><input class="form-control" type="text" id="price_per_basic" placeholder="0.00" oninput="calculateBasic();">Price/Person</div>
-                                <div class="col-md-6 col-sm-6"><div id="total_basic">0.00 - 0.00</div>&nbsp;THB (Total/Trip)</div>
+                        <div class="container">
+                          <div class="col-sm-12 col-md-12">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="price" id="food_included" value="food_included" <?php
+                                        if($edit===0 || $price_food==="included"){
+                                          echo "checked";
+                                        }
+                                      ?>  onclick="setPriceText('include');"> All Inclusive
+                                  <span class="circle">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
                               </div>
                             </div>
-                          </div>  
+                          <div class="col-sm-12 col-md-12">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="price" id="food_excluded" value="food_excluded" <?php
+                                        if($edit===1 && $price_food==="excluded"){
+                                          echo "checked";
+                                        }
+                                      ?> onclick="setPriceText('exclude');" > Food Excluded
+                                  <span class="circle">
+                                    <span class="check"></span>
+                                  </span>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-12">
+                            <div class=container id='price_text'>
+                              <?php 
+                                if($edit===0 || $price_food==="included"){
+                                  echo "<i class=\"material-icons\">local_dining</i>&nbsp;<i class=\"material-icons\">subway</i>&nbsp;<i class=\"material-icons\">local_offer</i>
+                                  <p>Expenses, occur during a trip, are mainly included <br/>                     
+                                        - Public or private transportation fares : taxi, bts, mrt, etc.(Please estimate the cost of gasoline or vehicle rental fee, in case of using a private car) <br/>
+                                        - Foods; Meal(s) during the trip. (Please note that alcohol is always excluded) <br/>
+                                        - Admission fee: Amusement park, gallery, shows, and etc.
+                                  </p>";
+                                }else if($price_food==="excluded"){
+                                  echo "<i class=\"material-icons\">local_dining</i>&nbsp;<i class=\"material-icons\">local_offer</i><br/><p>Travelers pay for their meal(s) during a trip. Only the following expenses are included. 
+                                        <br/> Reminder; Local Experts should calculate your trip’s price including these two expenses <br/> 
+                                        - Public or private transportation fares : taxi, bts, mrt, etc.(Please estimate the cost of gasoline or vehicle rental fee, in case of using a private car)  <br/> 
+                                        - Admission fee: Amusement park, gallery, shows, and etc.</p>";
+                                }
+                            ?>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+  
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                          <hr>
+                        </div>
+                        <div class="container">
+                          <div class="col-sm-12 cold-md-12">
+                           <span class="input-group-text">
+                              <i class="material-icons">attach_money</i>  <h4>Extra expense travelers should prepare</h4>
+                            </span>
+                            <p>Are there any extra expenses that travelers have to pay during the trip?</p>
+                          </div>
+                          <div class="col-md-12 col-sm-12" >
+                            <br/>
+                            <textarea type="text" class="form-control" id="extra_expense" placeholder="e.g. your pocket money" /><?php if($edit===1) echo $price_extra;?></textarea> 
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                          <hr>
+                        </div>
+                        <div class="col-md-12 col-sm-12" >
+                         <span class="input-group-text">
+                          <i class="material-icons">people</i>  <h4>Maximum travelers</h4>
+                        </span>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                          <div class="container">
+                            <select id="num_travelers" onchange="change_num_pass();">
+                                <option value="1" <?php if($edit===1&&$price_max_pass==1) echo "selected=\"selected\""; ?> >1 Person </option>
+                                <option value="2" <?php if($edit===1&&$price_max_pass==2) echo "selected=\"selected\""; ?>>2 Person</option>
+                                <option value="3" <?php if($edit===1&&$price_max_pass==3) echo "selected=\"selected\""; ?>>3 Person</option>
+                                <option value="4" <?php if($edit===1&&$price_max_pass==4) echo "selected=\"selected\""; ?>>4 Person</option>
+                                <option value="5" <?php if($edit===1&&$price_max_pass==5) echo "selected=\"selected\""; ?>>5 Person</option>
+                                <option value="6" <?php if($edit===1&&$price_max_pass==6) echo "selected=\"selected\""; ?>>6 Person</option>
+                                <option value="7" <?php if($edit===1&&$price_max_pass==7) echo "selected=\"selected\""; ?>>7 Person</option>
+                                <option value="8" <?php if($edit===1&&$price_max_pass==8) echo "selected=\"selected\""; ?>>8 Person</option>
+                            </select>
+                          </div>
+                        </div> 
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                          <hr>
+                        </div>
+                        <div class="col-md-12 col-sm-12" >
+                          <span class="input-group-text">
+                            <i class="material-icons">attach_money</i>  <h4>Pricing Method</h4>
+                          </span>
+                          <br>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                          <div class="container">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="price_type" id="basic_price" value="basic_price" 
+                                    <?php
+                                      if($edit===0 || $price_type=="basic") echo "checked"; ?>  onclick="setPriceCal('basic');"> Basic Pricing
+                                  <span class="circle">
+                                  <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input class="form-check-input" type="radio" name="price_type" id="advance_price" value="advance_price" <?php
+                                      if($edit===1 && $price_type=="advance") echo "checked"; ?> onclick="setPriceCal('advance');" > Advance Pricing
+                                    <span class="circle">
+                                    <span class="check"></span>
+                                    </span>
+                                </label>
+                              </div>
+                           </div>
+                          </div>
+                          <div class="col-md-6 col-sm-6">
+                        <div class="container" id="price_cal">
+                        <?php 
+                          if($edit===0){
+                            echo "<div class=\"card\">
+                            <div class=\"card-content\">
+                              <div class=\"row\" style=\"margin:2px;\">
+                                <div class=\"col-md-6 col-sm-6\"><input class=\"form-control\" type=\"text\" id=\"price_per_basic\" placeholder=\"0.00\" oninput=\"calculateBasic();\">Price/Person</div>
+                                <div class=\"col-md-6 col-sm-6\"><div id=\"total_basic\">0.00 - 0.00</div>&nbsp;THB (Total/Trip)</div>
+                              </div>
+                            </div>
+                          </div> ";
+                          }else{
+                            if($price_type === "basic"){
+                              echo "<div class=\"card\">
+                              <div class=\"card-content\">
+                                <div class=\"row\" style=\"margin:2px;\">
+                                  <div class=\"col-md-6 col-sm-6\"><input class=\"form-control\" type=\"text\" id=\"price_per_basic\" placeholder=\"0.00\" value=\"".number_format($price_unit1,2)."\" oninput=\"calculateBasic();\">Price/Person</div>
+                                  <div class=\"col-md-6 col-sm-6\"><div id=\"total_basic\">".number_format($price_unit1,2)." - ".number_format($price_total1,2)."</div>&nbsp;THB (Total/Trip)</div>
+                                </div>
+                              </div>
+                            </div> ";                              
+                            }else{
+                              echo "<div class=\"card\"><div class=\"card-content\"><div class=\"row\" style=\"margin:2px;\">";
+                              for($i=1;$i<=$price_max_pass;$i++){
+                                if($i==1){
+                                  $u = $price_unit1;
+                                  $t = $price_total1;
+                                }else if($i==2){
+                                  $u = $price_unit2;
+                                  $t = $price_total2;
+                                }
+                                else if($i==3){
+                                  $u = $price_unit3;
+                                  $t = $price_total3;
+                                }
+                                else if($i==4){
+                                  $u = $price_unit4;
+                                  $t = $price_total4;
+                                }
+                                else if($i==5){
+                                  $u = $price_unit5;
+                                  $t = $price_total5;
+                                }
+                                else if($i==6){
+                                  $u = $price_unit6;
+                                  $t = $price_total6;
+                                }
+                                else if($i==7){
+                                  $u = $price_unit7;
+                                  $t = $price_total7;
+                                }
+                                else if($i==8){
+                                  $u = $price_unit8;
+                                  $t = $price_total8;
+                                }
+
+                                echo "<div class=\"col-md-3 col-sm-3\">".$i."x<i class=\"material-icons\">person</i></div><div class=\"col-md-5 col-sm-5\"><input class=\"form-control\" type=\"text\" id=\"price_per_adv-".$i."\" placeholder=\"0.00\" value=\"".number_format($u,2)."\" oninput=\"calculateAdvance(".$i.");\">Price/Person</div><div class=\"col-md-4 col-sm-4\"><div id=\"total_adv-".$i."\">".number_format($t,2)."</div>&nbsp;THB</div>";
+                              }
+                              echo "</div></div></div>";
+                            }
+                           
+
+                          }
+                        ?>
+ 
                         </div>
                       </div>
                       <div class="col-md-6 col-sm-6">
@@ -603,8 +797,9 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                         </div>
                       </div>                     
                       </div>
-                      </div>
-                      <div class="col-md-12 col-sm-12" >
+                    
+                    <div class="row">
+                    <div class="col-md-12 col-sm-12" >
                         <br>
                         <div align="right">
                             <div class="text-center">
@@ -616,6 +811,13 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                         </div>
                       </div>
                     </div>
+
+
+
+
+
+
+                    </div>
                     <div class="tab-pane" id="conditions">
                     <div class="row">
                         <span class="input-group-text">
@@ -625,34 +827,34 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                     <div class="row">
                     <a href="#"  data-toggle="tooltip" data-placement="top" title="Travelers need to wear appropriate outfits neutral colors, no sleeveless shirts and shorts.The dress code's featured most of these locations;temples, museum, or any official places.">
                           <div class="col-md-4 col-sm-4" align="center">
-                              <input type='checkbox' name='smart_casual' value='1' id="smart_casual"/><label for="smart_casual"></label> 
+                              <input type='checkbox' name='smart_casual' value='1' <?php if($edit===1 && $trip_condition_casual==1) echo "checked";?> id="smart_casual"/><label for="smart_casual"></label> 
                           </div>
                           </a>
                         <a href="#"  data-toggle="tooltip" data-placement="top" title="Travelers need to be fit and firm, so it will be easier for them to complete your trip. Select this condition, if your trip featured these following activities; boxing, hiking, trekking, kayaking, rafting, etc.">
                           <div class="col-md-4 col-sm-4" align="center">
-                           <input type='checkbox' name='physical_strength' value='1' id="physical_strength"/><label for="physical_strength"></label> 
+                           <input type='checkbox' name='physical_strength' <?php if($edit===1 && $trip_condition_physical==1) echo "checked";?> value='1' id="physical_strength"/><label for="physical_strength"></label> 
                           </div>
                         </a>
                         <a href="#"  data-toggle="tooltip" data-placement="top" title="Select this condition, if your trip has alternative choices for vegetable meals.">
                         <div class="col-md-4 col-sm-4" align="center">
-                           <input type='checkbox' name='vegan' value='1' id="vegan"/><label for="vegan"></label> 
+                           <input type='checkbox' name='vegan' value='1' <?php if($edit===1 && $trip_condition_vegan==1) echo "checked";?> id="vegan"/><label for="vegan"></label> 
                         </div>
                         </a>
                     </div>
                     <div class="row">
                          <a href="#"  data-toggle="tooltip" data-placement="top" title="Any activities that travelers can enjoy with their family members and is good with kids, such as going to an amusement park, watching a performance, joining a pottery workshop, etc, can be considered to this condition.">
                           <div class="col-md-4 col-sm-4" align="center">
-                              <input type='checkbox' name='children' value='1' id="children"/><label for="children"></label> 
+                              <input type='checkbox' name='children' value='1' <?php if($edit===1 && $trip_condition_children==1) echo "checked";?> id="children"/><label for="children"></label> 
                           </div>
                         </a>
                         <a href="#"  data-toggle="tooltip" data-placement="top" title="Although you stick to your listed itinerary, your trip may be adjusted accordingly to your travelers.">
                           <div class="col-md-4 col-sm-4" align="center">
-                              <input type='checkbox' name='flexible' value='1' id="flexible"/><label for="flexible"></label> 
+                              <input type='checkbox' name='flexible' value='1' <?php if($edit===1 && $trip_condition_flexible==1) echo "checked";?> id="flexible"/><label for="flexible"></label> 
                           </div>
                         </a>
                         <a href="#"  data-toggle="tooltip" data-placement="top" title="For any activities places of your trip can be accessed seasonally for example, trekking to the top of Khitchakut mountain, visiting a tropical fruit farm, sightseeing at a national park, and etc, please select this condition.">
                         <div class="col-md-4 col-sm-4" align="center">
-                           <input type='checkbox' name='seasonal' value='1' id="seasonal"/><label for="seasonal"></label> 
+                           <input type='checkbox' name='seasonal' value='1' <?php if($edit===1 && $trip_condition_seasonal==1) echo "checked";?> id="seasonal"/><label for="seasonal"></label> 
                         </div>
                         </a>
                     </div>
@@ -1015,7 +1217,7 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
     }
 
   function addPeriod(d,p){
-    console.log(detailArr);
+    console.log('start addPeriod',d,p,detailArr);
     var wrapperId = 'detail'+d.toString();
     var wrapper = $('#'+wrapperId);
     var sId = "detail"+d.toString()+"-"+(p+1).toString()+"-s";
@@ -1024,7 +1226,7 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
     var fields = "<div class=\"row\" style=\"margin:2px\"><div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id="+sId+" name="+sId+">Start Time</div><div class=\"col-sm-3\"><input class=\"form-control timepicker\" type=\"text\" id="+eId+" name="+eId+">End Time</div><div class=\"col-sm-6\"><textarea class=\"form-control\" id="+tId+" rows=\"1\"></textarea>Description</div></div>"
     $(wrapper).append(fields)
     detailArr[d].push(p+1);
-    console.log(detailArr)
+    console.log('end addPeriod',d,p,detailArr)
     var buttonId = "addPeriod-"+d.toString();
     var newP = p+1
     document.getElementById( buttonId ).setAttribute( "onClick", "javascript: addPeriod("+d.toString()+","+newP.toString()+");" );
@@ -1036,10 +1238,11 @@ materialKit.initSliders();
 
 
   }
-  function addDay(d){
-    console.log(detailArr);
+  function addDay(){
+    console.log('start addDay',detailArr);
     var currentDay = Object.keys(detailArr).length;
     var newDay = currentDay+1;
+    console.log('current day',currentDay,'new day',newDay);
     var buttonId = "addPeriod-"+newDay.toString();
     var funcName = "addPeriod("+newDay.toString()+",1);"
     var newId = "detail"+newDay.toString();
@@ -1051,7 +1254,7 @@ materialKit.initSliders();
     $(wrapper).append(fields);
     detailArr[newDay] = new Array();
     detailArr[newDay].push(1);
-    console.log(detailArr);
+    console.log('end addDay',detailArr);
  //init DateTimePickers
  materialKit.initFormExtendedDatetimepickers();
 
@@ -1070,7 +1273,16 @@ materialKit.initSliders();
       zoom:5
     }
     var map=new google.maps.Map(document.getElementById("map"),mapProp);
-    var isClick=false;
+    <?php
+      if ($edit===1){
+        echo "var position = new google.maps.LatLng(".$trip_meeting_lat.", ".$trip_meeting_lng.");";
+        echo "placeMarker(position,map);";
+        echo "var isClick=true;";
+
+      }else{
+        echo "var isClick=false;";
+      }
+    ?>
     map.addListener('click', function(e) {
       if(isClick){
         markerArr[0].setMap(null);
@@ -1229,7 +1441,7 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
       var text="<div class=\"card\"><div class=\"card-content\"><div class=\"row\" style=\"margin:2px;\">";
       
       for(var i=1;i<=max_pass;i++){
-        text= text+"<div class=\"col-md-3 col-sm-3\">"+i.toString()+"x<i class=\"material-icons\">person</i></div><div class=\"col-md-5 col-sm-5\"><input class=\"form-control\" type=\"text\" id=\"price_per_adv-"+i.toString()+"\" placeholder=\"0.00\" oninput=\"calculateAdvance("+i.toString()+");\">Price/Person</div><div class=\"col-md-4 col-sm-4\"><div id=\"total_adv-"+i.toString()+"\">0.00 - 0.00</div>&nbsp;THB</div>";
+        text= text+"<div class=\"col-md-3 col-sm-3\">"+i.toString()+"x<i class=\"material-icons\">person</i></div><div class=\"col-md-5 col-sm-5\"><input class=\"form-control\" type=\"text\" id=\"price_per_adv-"+i.toString()+"\" placeholder=\"0.00\" oninput=\"calculateAdvance("+i.toString()+");\">Price/Person</div><div class=\"col-md-4 col-sm-4\"><div id=\"total_adv-"+i.toString()+"\">0.00</div>&nbsp;THB</div>";
       }
       
       
@@ -1311,7 +1523,6 @@ function backFromCondition(){
       var seasonal = 0;
     }
     var dates = $('#datePick').multiDatesPicker('value');
-  
     var from_condition = new FormData()
       from_condition.append('casual', smart_casual);
       from_condition.append('physical', physical_strength);
@@ -1367,16 +1578,38 @@ function newtrip_submit(){
     });
     $(document).ready(function(){
     $('#datePick').multiDatesPicker();
+    <?php
+      if($edit===1){
+        for($i=0;$i<sizeof($date_array);$i++){
+          echo "$('#datePick').multiDatesPicker('toggleDate','".$date_array[$i]."');";
+        }
+      }
+    ?>
 });
     $(document).ready(function(){
       $('select').niceSelect();
     });
+
     var detailArr = {};
     $(document).ready(function() {
 
-      detailArr[1] = new Array();
-      detailArr[1].push(1);
-      console.log(detailArr);
+      
+      <?php
+        if ($edit===0){
+            echo "detailArr[1] = new Array(); detailArr[1].push(1);";
+        }else{
+          $numday = sizeof(array_keys($trip_detail));
+          for($d=1;$d<=$numday;$d++){
+            echo "detailArr[".$d."] = new Array();";
+            $periods = $trip_detail[$d];
+            for($p=1;$p<=sizeof($periods);$p++){
+              echo "detailArr[".$d."].push(".$p.");";
+            }
+        }
+      }
+    ?>
+      
+    console.log(detailArr);
 
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-46172202-1']);
