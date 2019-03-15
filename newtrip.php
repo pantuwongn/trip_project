@@ -3,8 +3,36 @@
     require_once("functions.php");
     include('include/user.php');
     $user = new User();
+    include("db_connect.php");
 
-    $_SESSION['trip_id'] = 0;
+    $edit = 0;
+    if (isset($_GET['trip_id'])){
+      $_SESSION['trip_id'] = $_GET['trip_id'];
+      $edit = 1;
+    }else{
+      $_SESSION['trip_id'] = 0;
+    }
+
+    if($edit === 1){
+      $sql = "SELECT * from trips WHERE trip_id='".$_SESSION['trip_id']."'";
+      $result = $conn->query($sql);
+      $data = $result->fetch_assoc();
+      $trip_type_id = $data['trip_type_id'];
+      $vehicle_id = $data['vehicle_id'];
+      $trip_name = $data['trip_name'];
+      $trip_dest = $data['trip_dest'];
+      $trip_sum = $data['trip_sum'];
+      $trip_activity = $data['trip_activity'];
+      $trip_cover = $data['trip_cover'];
+
+      $sql = "SELECT * from trip_photo WHERE trip_id='".$_SESSION['trip_id']."'";
+      $result = $conn->query($sql);
+      $photo_arr = array();
+      while($row = $result->fetch_assoc()) {
+        array_push($photo_arr,$row['trip_photo_name']);
+      }
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -236,11 +264,21 @@ width: 100%; /*what ever width you want*/
                         <div class="row">
                           <div class="col-md-5 col-sm-8">
                             <h4>Cover Image</h4>
-                            <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                            <?php 
+                              if ($edit==0)
+                                echo "<div class=\"fileinput fileinput-new text-center\" data-provides=\"fileinput\">";
+                              else
+                              echo "<div class=\"fileinput fileinput-exists text-center\" data-provides=\"fileinput\">";
+                            ?>
                               <div class="fileinput-new thumbnail img-raised">
-                                <img src="./assets/img/image_placeholder.jpg" alt="...">
+                                    <img src="./assets/img/image_placeholder.jpg" alt="...">
                               </div>
-                              <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                              <div class="fileinput-preview fileinput-exists thumbnail img-raised">
+                              <?php
+                                 if ($edit==1)
+                                  echo "<img src=\"./upload/".$trip_cover."\" alt=\"...\">";
+                                ?>
+                              </div>
                               <div>
                                 <span class="btn btn-raised btn-round btn-default btn-file">
                                   <span class="fileinput-new">Select image</span>
@@ -252,25 +290,25 @@ width: 100%; /*what ever width you want*/
                             </div>
                             <form>
                               <div class="cc-selector">
-                                <input [(ngModel)]="vehicle" class="form-check-input" checked="checked" id="walk" type="radio"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==1) echo  "checked=\"checked\""; ?> id="walk" type="radio"
                                   name="vehicle" value="walk" />
                                 <label class="drinkcard-cc walk" for="walk"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input"  id="car" type="radio"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==2) echo  "checked=\"checked\""; ?>  id="car" type="radio"
                                   name="vehicle" value="car" />
                                 <label class="drinkcard-cc car" for="car"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input" type="radio" name="vehicle" id="van"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==3) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="van"
                                   value="van" />
                                 <label class="drinkcard-cc van" for="van"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input" type="radio" name="vehicle" id="motorbike"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==5) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="motorbike"
                                   value="motorbike" />
                                 <label class="drinkcard-cc motorbike" for="motorbike"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input" type="radio" name="vehicle" id="bike"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==6) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="bike"
                                   value="bike" />
                                 <label class="drinkcard-cc bike" for="bike"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input" type="radio" name="vehicle" id="boat"
-                                  value="boat" />
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==7) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="boat"
+                                  value="boat" /> 
                                 <label class="drinkcard-cc boat" for="boat"></label>
-                                <input [(ngModel)]="vehicle" class="form-check-input" type="radio" name="vehicle" id="public"
+                                <input [(ngModel)]="vehicle" class="form-check-input" <?php if($edit==1 && $vehicle_id==8) echo  "checked=\"checked\""; ?> type="radio" name="vehicle" id="public"
                                   value="public" />
                                 <label class="drinkcard-cc public" for="public"></label>
                               </div>
@@ -280,8 +318,8 @@ width: 100%; /*what ever width you want*/
                                 <div class="row">
                                   <div class="col-md-3 col-sm-3 col-lg-3 form-check">
                                     <label class="form-check-label">
-                                      <input [(ngModel)]="triptype" class="form-check-input" type="radio" name="triptype" id="travel_trip"
-                                        value="Travel trip" checked required />
+                                      <input [(ngModel)]="triptype" class="form-check-input" <?php if($edit==1 && $trip_type_id==1) echo  "checked=\"checked\""; ?> type="radio" name="triptype" id="travel_trip"
+                                        value="Travel trip"  required />
                                       Travel trip
                                       <span class="circle">
                                         <span class="check"></span>
@@ -290,7 +328,7 @@ width: 100%; /*what ever width you want*/
                                   </div>
                                   <div class="col-md-3 col-sm-3 col-lg-3 form-check">
                                     <label class="form-check-label">
-                                      <input [(ngModel)]="triptype" class="form-check-input" type="radio" name="triptype" id="business_trip"
+                                      <input [(ngModel)]="triptype" class="form-check-input" type="radio" name="triptype" id="business_trip" <?php if($edit==1 && $trip_type_id==2) echo  "checked=\"checked\""; ?>
                                         value="Business trip" required />
                                       Business trip
                                       <span class="circle">
@@ -300,7 +338,7 @@ width: 100%; /*what ever width you want*/
                                   </div>
                                   <div class="col-md-3 col-sm-3 col-lg-3 form-check">
                                     <label class="form-check-label">
-                                      <input [(ngModel)]="triptype" class="form-check-input" type="radio" name="triptype" id="medical_trip"
+                                      <input [(ngModel)]="triptype" class="form-check-input" type="radio" name="triptype" id="medical_trip" <?php if($edit==1 && $trip_type_id==3) echo  "checked=\"checked\""; ?>
                                         value="Medical trip" required />
                                       Medical trip
                                       <span class="circle">
@@ -310,7 +348,7 @@ width: 100%; /*what ever width you want*/
                                   </div>
                                   <div class="col-md-3 col-sm-3 col-lg-3 form-check">
                                     <label class="form-check-label">
-                                      <input [(ngModel)]="triptype" class="form-check-input" type="radio" name="triptype" id="umrah_trip"
+                                      <input [(ngModel)]="triptype" class="form-check-input" type="radio" name="triptype" id="umrah_trip" <?php if($edit==1 && $trip_type_id==4) echo  "checked=\"checked\""; ?>
                                         value="Umrah trip" required />
                                       Umrah trip
                                       <span class="circle">
@@ -326,7 +364,7 @@ width: 100%; /*what ever width you want*/
                                         <i class="material-icons">bookmark_border</i>
                                       </span>
                                     </div>
-                                    <input [(ngModel)]="tripname" type="text" class="form-control" placeholder="Trip name" id="trip_name" />
+                                    <input [(ngModel)]="tripname" type="text" class="form-control" placeholder="Trip name" id="trip_name" <?php if($edit==1) echo "value='".$trip_name."'";?> />
                                   </div>
                                 </div>
                                 <div class="form-group">
@@ -338,7 +376,7 @@ width: 100%; /*what ever width you want*/
                                         </span>
                                       </div>
                                       <textarea [(ngModel)]="tripsummary" maxlength="150" class="form-control" rows="5"
-                                        placeholder="Trip summary" id="trip_sum" required></textarea>
+                                        placeholder="Trip summary" id="trip_sum" required><?php if($edit==1) echo $trip_sum;?></textarea>
                                     </div>
                                   </div>
                                 </div>
@@ -349,7 +387,7 @@ width: 100%; /*what ever width you want*/
                                         <i class="material-icons">place</i>
                                       </span>
                                     </div>
-                                    <input [(ngModel)]="destination" type="text" class="form-control" placeholder="Trip to" id="trip_dest" />
+                                    <input [(ngModel)]="destination" type="text" class="form-control" placeholder="Trip to" id="trip_dest" <?php if($edit==1) echo "value='".$trip_dest."'";?>/>
                                   </div>
                                 </div>
                                 <div class="form-group">
@@ -359,7 +397,7 @@ width: 100%; /*what ever width you want*/
                                         <i class="material-icons">assistant</i>
                                       </span>
                                     </div>
-                                    <input [(ngModel)]="tripactivity" type="text" class="form-control" id="trip_activity" placeholder="Activity (e.g. Shopping,Eating,Diving)" />
+                                    <input [(ngModel)]="tripactivity" type="text" class="form-control" id="trip_activity" placeholder="Activity (e.g. Shopping,Eating,Diving)" <?php if($edit==1) echo "value='".$trip_activity."'";?> />
                                   </div>
                                 </div>
                                 <div class="text-center">
@@ -588,7 +626,6 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                     <a href="#"  data-toggle="tooltip" data-placement="top" title="Travelers need to wear appropriate outfits neutral colors, no sleeveless shirts and shorts.The dress code's featured most of these locations;temples, museum, or any official places.">
                           <div class="col-md-4 col-sm-4" align="center">
                               <input type='checkbox' name='smart_casual' value='1' id="smart_casual"/><label for="smart_casual"></label> 
-                             
                           </div>
                           </a>
                         <a href="#"  data-toggle="tooltip" data-placement="top" title="Travelers need to be fit and firm, so it will be easier for them to complete your trip. Select this condition, if your trip featured these following activities; boxing, hiking, trekking, kayaking, rafting, etc.">
@@ -827,6 +864,36 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
   var dropzone = new Dropzone ("#dropzonewidget", {
     maxFilesize: 256, // Set the maximum file size to 256 MB
     addRemoveLinks: true, // Don't show remove links on dropzone itself.
+    init: function () {
+        var myDropzone = this;
+        var existing_file;
+        $.ajax({ url: 'retrieve_photo.php',
+         data: {action: 'test'},
+         type: 'post',
+         success: function(output) {
+            existing_file = output;
+            added_file = new Array();
+            <?php
+              if($edit === 1){
+                foreach ($photo_arr as $photo)
+                  echo "added_file.push('".$photo."');";
+              }
+            ?>
+            
+            for (i = 0; i < existing_file.length; i++) {
+              if (added_file.includes(existing_file[i].name)){
+                myDropzone.emit("addedfile", existing_file[i]);
+                myDropzone.emit("thumbnail", existing_file[i], "upload/"+existing_file[i].name);
+                myDropzone.emit("complete", existing_file[i]);     
+                dict[existing_file[i].name] = existing_file[i].name;
+                myDropzone.files.push(existing_file[i]);
+              }           
+        }
+          }
+        });
+       
+        
+    }
   });
 
   dropzone.on("removedfile", function(file){

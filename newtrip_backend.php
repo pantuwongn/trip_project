@@ -21,6 +21,13 @@
         }else{
             $trip_id = $_SESSION['trip_id'];
 
+            $sql = "SELECT * from trips WHERE trip_id='".$_SESSION['trip_id']."'";
+            $result = $conn->query($sql);
+            $data = $result->fetch_assoc();
+            $trip_cover_old = $data['trip_cover'];
+
+            $filename = 'upload/'.$trip_cover_old;
+            unlink($filename);
             $sql = "UPDATE trips SET trip_type_id='".$trip_type_id."', vehicle_id='".$vehicle_id."', users_user_id='".$users_user_id."', trip_name='".$trip_name."',trip_sum='".$trip_sum."',trip_dest='".$trip_dest."',trip_activity='".$trip_activity."', trip_cover='".$trip_cover."' WHERE trip_id = '".$trip_id."'";
 
         }
