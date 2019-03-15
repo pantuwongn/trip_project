@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2019 at 07:01 PM
+-- Generation Time: Mar 15, 2019 at 07:17 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -190,6 +190,30 @@ INSERT INTO `trip_price` (`trip_id`, `price_food`, `price_extra`, `price_max_pas
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `trip_reservation`
+--
+
+CREATE TABLE `trip_reservation` (
+  `res_id` int(11) NOT NULL,
+  `res_no` varchar(100) NOT NULL,
+  `trip_id` int(11) NOT NULL,
+  `trip_res_adult` int(11) NOT NULL,
+  `trip_res_child` int(11) NOT NULL,
+  `trip_res_date` date NOT NULL,
+  `trip_res_fn` varchar(100) NOT NULL,
+  `trip_res_ln` varchar(100) NOT NULL,
+  `trip_res_email` varchar(100) NOT NULL,
+  `trip_res_mobile` varchar(20) NOT NULL,
+  `trip_res_country` varchar(50) NOT NULL,
+  `trip_res_payment_method` varchar(30) NOT NULL,
+  `trip_res_payment_status` int(11) NOT NULL DEFAULT '0',
+  `trip_res_datetime` datetime NOT NULL,
+  `trip_res_fee` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `trip_type`
 --
 
@@ -303,6 +327,12 @@ ALTER TABLE `trip_price`
   ADD PRIMARY KEY (`trip_id`);
 
 --
+-- Indexes for table `trip_reservation`
+--
+ALTER TABLE `trip_reservation`
+  ADD PRIMARY KEY (`res_id`);
+
+--
 -- Indexes for table `trip_type`
 --
 ALTER TABLE `trip_type`
@@ -329,6 +359,12 @@ ALTER TABLE `vehicle`
 --
 ALTER TABLE `trips`
   MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `trip_reservation`
+--
+ALTER TABLE `trip_reservation`
+  MODIFY `res_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `trip_type`
