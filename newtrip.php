@@ -34,7 +34,8 @@
   <link rel="stylesheet" href="dist/mtr-datepicker.default-theme.min.css">
   <link rel="stylesheet" href="css/nice-select.css">
   <link rel="stylesheet" href="css/jquery-ui.multidatespicker.css">
-  <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+
   <style>
     .ui-datepicker {
 width: 100%; /*what ever width you want*/
@@ -46,18 +47,18 @@ width: 100%; /*what ever width you want*/
     input[name="smart_casual"] + label
     {
       background: url("con-icon/01Gray.fw.png") no-repeat;
-      background-size: 50%;
-      height:250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
-      padding: 0 0 0 0px;
+      padding: 0 0 0 0 px;
     }
     input[name="smart_casual"]:checked + label
     {
       background: url("con-icon/01.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -69,18 +70,18 @@ width: 100%; /*what ever width you want*/
     input[name="physical_strength"] + label
     {
       background: url("con-icon/02Gray.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
     input[name="physical_strength"]:checked + label
     {
       background: url("con-icon/02.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -92,18 +93,18 @@ width: 100%; /*what ever width you want*/
     input[name="vegan"] + label
     {
       background: url("con-icon/03Gray.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
     input[name="vegan"]:checked + label
     {
       background: url("con-icon/03.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -115,18 +116,18 @@ width: 100%; /*what ever width you want*/
     input[name="children"] + label
     {
       background: url("con-icon/04Gray.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
     input[name="children"]:checked + label
     {
       background: url("con-icon/04.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -138,18 +139,18 @@ width: 100%; /*what ever width you want*/
     input[name="flexible"] + label
     {
       background: url("con-icon/05Gray.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
     input[name="flexible"]:checked + label
     {
       background: url("con-icon/05.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -161,18 +162,18 @@ width: 100%; /*what ever width you want*/
     input[name="seasonal"] + label
     {
       background: url("con-icon/06Gray.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
     input[name="seasonal"]:checked + label
     {
       background: url("con-icon/06.fw.png") no-repeat;
-      background-size: 50%;
-      height: 250px;
-      width: 250px;
+      background-size: 100%;
+      height: 150px;
+      width: 150px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -584,38 +585,39 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                         </span>
                     </div> 
                     <div class="row">
-                        <div data-toggle="tooltip" title="Travelers need to wear appropriate outfits neutral colors, no sleeveless shirts and shorts.&#13;The dress code's featured most of these locations;temples, museum, or any official places.">
+                    <a href="#"  data-toggle="tooltip" data-placement="top" title="Travelers need to wear appropriate outfits neutral colors, no sleeveless shirts and shorts.The dress code's featured most of these locations;temples, museum, or any official places.">
                           <div class="col-md-4 col-sm-4" align="center">
                               <input type='checkbox' name='smart_casual' value='1' id="smart_casual"/><label for="smart_casual"></label> 
+                             
                           </div>
-                        </div>
-                        <div data-toggle="tooltip" title="Travelers need to be fit and firm, so it will be easier for them to complete your trip. Select this condition, if your trip featured these following activities; boxing, hiking, trekking, kayaking, rafting, etc.">
+                          </a>
+                        <a href="#"  data-toggle="tooltip" data-placement="top" title="Travelers need to be fit and firm, so it will be easier for them to complete your trip. Select this condition, if your trip featured these following activities; boxing, hiking, trekking, kayaking, rafting, etc.">
                           <div class="col-md-4 col-sm-4" align="center">
                            <input type='checkbox' name='physical_strength' value='1' id="physical_strength"/><label for="physical_strength"></label> 
                           </div>
-                        </div>
-                        <div data-toggle="tooltip" title="Select this condition, if your trip has alternative choices for vegetable meals.">
+                        </a>
+                        <a href="#"  data-toggle="tooltip" data-placement="top" title="Select this condition, if your trip has alternative choices for vegetable meals.">
                         <div class="col-md-4 col-sm-4" align="center">
                            <input type='checkbox' name='vegan' value='1' id="vegan"/><label for="vegan"></label> 
                         </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="row">
-                        <div data-toggle="tooltip" title="Any activities that travelers can enjoy with their family members and is good with kids, such as going to an amusement park, watching a performance, joining a pottery workshop, etc, can be considered to this condition.">
+                         <a href="#"  data-toggle="tooltip" data-placement="top" title="Any activities that travelers can enjoy with their family members and is good with kids, such as going to an amusement park, watching a performance, joining a pottery workshop, etc, can be considered to this condition.">
                           <div class="col-md-4 col-sm-4" align="center">
                               <input type='checkbox' name='children' value='1' id="children"/><label for="children"></label> 
                           </div>
-                        </div>
-                        <div data-toggle="tooltip" title="Although you stick to your listed itinerary, your trip may be adjusted accordingly to your travelers.">
+                        </a>
+                        <a href="#"  data-toggle="tooltip" data-placement="top" title="Although you stick to your listed itinerary, your trip may be adjusted accordingly to your travelers.">
                           <div class="col-md-4 col-sm-4" align="center">
-                           <input type='checkbox' name='flexible' value='1' id="flexible"/><label for="flexible"></label> 
+                              <input type='checkbox' name='flexible' value='1' id="flexible"/><label for="flexible"></label> 
                           </div>
-                        </div>
-                        <div data-toggle="tooltip" title="For any activities places of your trip can be accessed seasonally for example, trekking to the top of Khitchakut mountain, visiting a tropical fruit farm, sightseeing at a national park, and etc, please select this condition.">
+                        </a>
+                        <a href="#"  data-toggle="tooltip" data-placement="top" title="For any activities places of your trip can be accessed seasonally for example, trekking to the top of Khitchakut mountain, visiting a tropical fruit farm, sightseeing at a national park, and etc, please select this condition.">
                         <div class="col-md-4 col-sm-4" align="center">
                            <input type='checkbox' name='seasonal' value='1' id="seasonal"/><label for="seasonal"></label> 
                         </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="row">
                         <span class="input-group-text">
@@ -670,7 +672,6 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
   <?php include('footer.php'); ?>
   <!--   Core JS Files   -->
   <script src="./assets/js/core/jquery.min.js" type="text/javascript"></script>
-  <script src="./assets/js/core/ "
   <script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
   <script src="./assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
   <script src="./assets/js/plugins/moment.min.js"></script>
@@ -702,8 +703,7 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
   <script src='dropzone.js' type='text/javascript'></script>
   <script src="js/jquery.nice-select.js"></script>
   <script src="js/jquery-ui.multidatespicker.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script src="http://multidatespickr.sourceforge.net/jquery-ui.multidatespicker.js"></script>
+  <script src="js/jquery-ui.js"></script>
   <!-- first tab: basic -->
   <script>
 
@@ -941,7 +941,7 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
                 $('#priceTab').addClass('active');
                 $('#price').addClass('active');
             }else{
-                //alert("Error: " + msg);
+                alert("Error: " + msg);
             }
           }
         });
@@ -1263,14 +1263,14 @@ function backFromCondition(){
           data: from_condition,                   
           type: 'post',
           success: function(msg){
-            alert(msg);
+            //alert(msg);
             if (msg.length<10){
                 $('#conditionTab').removeClass('active');
                 $('#conditions').removeClass('active');
                 $('#submitTab').addClass('active');
                 $('#submit').addClass('active');
             }else{
-                //alert("Error: " + msg);
+                alert("Error: " + msg);
             }
           }
         });
@@ -1287,6 +1287,7 @@ function newtrip_submit(){
 </script>
   <script>  
     $(document).ready(function(){
+
       //init DateTimePickers
       materialKit.initFormExtendedDatetimepickers({format:"H:mm"});
 
@@ -1355,7 +1356,7 @@ function newtrip_submit(){
 
   </script>
     <!--  Google Maps Plugin    -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVlIZSpzYkePXCjcm9xRHuFyL2DbKZY0Q&callback=myMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVlIZSpzYkePXCjcm9xRHuFyL2DbKZY0Q&callback=myMap&language=en&region=EN"></script>
   <noscript>
     <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=111649226022273&ev=PageView&noscript=1" />
   </noscript>

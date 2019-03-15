@@ -114,7 +114,7 @@
         }
 
         if($succues){
-            echo $success;
+            echo "success";
         }else{
             echo "Error: " . $err_sql . "<br>" . $conn->error;
         }
@@ -131,7 +131,10 @@
         $price_total = array();
         $price_unit_array = json_decode($_POST['price_unit'],true);
         $price_total_array = json_decode($_POST['price_total'],true);
-        for($i=0;$i<$price_max_pass;$i++){
+        $loop_limit = $price_max_pass;
+        if($price_type=='basic')
+            $loop_limit = 1;
+        for($i=0;$i<$loop_limit;$i++){
             array_push($price_unit, $price_unit_array[$i]);
             array_push($price_total, $price_total_array[$i]);
         }
@@ -151,11 +154,11 @@
         }
 
         $sql = "INSERT INTO trip_price (trip_id, price_food,price_extra, price_max_pass, price_type ";
-        for($i=1;$i<=$price_max_pass;$i++){
+        for($i=1;$i<=$loop_limit;$i++){
             $sql = $sql.",price_unit".$i.", price_total".$i;
         }
         $sql = $sql.") VALUES ('".$trip_id."','".$price_food."','".$price_extra."','".$price_max_pass."','".$price_type."'";
-        for($i=1;$i<=$price_max_pass;$i++){
+        for($i=1;$i<=$loop_limit;$i++){
             $sql = $sql.",'".$price_unit[$i-1]."','".$price_total[$i-1]."'";
         }
         $sql = $sql.")";
