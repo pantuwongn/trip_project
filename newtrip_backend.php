@@ -25,9 +25,10 @@
             $result = $conn->query($sql);
             $data = $result->fetch_assoc();
             $trip_cover_old = $data['trip_cover'];
-
-            $filename = 'upload/'.$trip_cover_old;
-            unlink($filename);
+            if ($trip_cover_old && $trip_cover_old != $trip_cover){
+                $filename = 'upload/'.$trip_cover_old;
+                unlink($filename);
+            }
             $sql = "UPDATE trips SET trip_type_id='".$trip_type_id."', vehicle_id='".$vehicle_id."', users_user_id='".$users_user_id."', trip_name='".$trip_name."',trip_sum='".$trip_sum."',trip_dest='".$trip_dest."',trip_activity='".$trip_activity."', trip_cover='".$trip_cover."' WHERE trip_id = '".$trip_id."'";
 
         }
@@ -138,6 +139,8 @@
         $price_total = array();
         $price_unit_array = json_decode($_POST['price_unit'],true);
         $price_total_array = json_decode($_POST['price_total'],true);
+        $price_children_allow = $_POST['price_children_allow'];
+        $price_children = $_POST['price_children'];
         $loop_limit = $price_max_pass;
         if($price_type=='basic')
             $loop_limit = 1;
@@ -160,11 +163,11 @@
 
         }
 
-        $sql = "INSERT INTO trip_price (trip_id, price_food,price_extra, price_max_pass, price_type ";
+        $sql = "INSERT INTO trip_price (trip_id, price_food,price_extra, price_max_pass, price_type, price_children_allow, price_children";
         for($i=1;$i<=$loop_limit;$i++){
             $sql = $sql.",price_unit".$i.", price_total".$i;
         }
-        $sql = $sql.") VALUES ('".$trip_id."','".$price_food."','".$price_extra."','".$price_max_pass."','".$price_type."'";
+        $sql = $sql.") VALUES ('".$trip_id."','".$price_food."','".$price_extra."','".$price_max_pass."','".$price_type."','".$price_children_allow."','".$price_children."'";
         for($i=1;$i<=$loop_limit;$i++){
             $sql = $sql.",'".$price_unit[$i-1]."','".$price_total[$i-1]."'";
         }

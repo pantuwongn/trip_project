@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2019 at 07:17 PM
+-- Generation Time: Mar 17, 2019 at 11:58 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -50,27 +50,6 @@ CREATE TABLE `trips` (
   `trip_condition_seasonal` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `trips`
---
-
-INSERT INTO `trips` (`trip_id`, `trip_type_id`, `vehicle_id`, `users_user_id`, `trip_name`, `trip_sum`, `trip_dest`, `trip_activity`, `trip_cover`, `trip_num_day`, `trip_meeting_addr`, `trip_meeting_lat`, `trip_meeting_lng`, `trip_condition_casual`, `trip_condition_physical`, `trip_condition_vegan`, `trip_condition_children`, `trip_condition_flexible`, `trip_condition_seasonal`) VALUES
-(8, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(10, 2, 3, 'grW03pe8WvT6H6802NMmKgmNFb82', 'a', 'b', 'c', 'd', '5c82488508719.jpeg', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(11, 0, 0, '', '', '', '', '', '', 1, 'Unnamed Road, Tambon Bang Ta Then, Amphoe Song Phi Nong, Chang Wat Suphan Buri 73190, Thailand', 14.171197204970321, 100.17162350000001, 1, 1, 1, 1, 1, 1),
-(12, 1, 1, 'grW03pe8WvT6H6802NMmKgmNFb82', '', '', '', '', '5c86acf2ce294.jpg', 1, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(13, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(14, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(15, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(16, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(17, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(18, 3, 0, 'grW03pe8WvT6H6802NMmKgmNFb82', 'Test Trip Name', 'Test Trip Summary', 'Test Trip To', 'Test Trip Activity by Boat for Medical Trip', '5c8a961c8697d.jpg', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(19, 2, 5, 'grW03pe8WvT6H6802NMmKgmNFb82', 'Business Trip', 'With', 'Public', 'Many Activity', '5c8a975b18ca0.PNG', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(20, 2, 4, 'lOD3Dftx7LUASpyDRtqpbxtYTu32', 'Trip to buy pigs', 'We need many pigs for our agricultural business.', 'Naknon Pathom', 'Catch Pig', '5c8b65f91376b.jpg', 2, 'Unnamed Road, Tambon Nong Din Daeng, Amphoe Mueang Nakhon Pathom, Chang Wat Nakhon Pathom 73000, Thailand', 13.790558347961078, 99.98596039690483, 1, 1, 1, 1, 1, 1),
-(21, 0, 0, '', '', '', '', '', '', 2, 'Unnamed Road, Tambon Rasom, Amphoe Uthai, Chang Wat Phra Nakhon Si Ayutthaya 13140, Thailand', 14.384136700560756, 100.76488521875001, 1, 1, 1, 1, 1, 1),
-(22, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1),
-(23, 0, 0, '', '', '', '', '', '', 0, '', 0, 0, 1, 1, 1, 1, 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -82,22 +61,6 @@ CREATE TABLE `trip_date` (
   `trip_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `trip_date`
---
-
-INSERT INTO `trip_date` (`trip_id`, `trip_date`) VALUES
-(17, '2019-03-27'),
-(17, '2019-03-29'),
-(20, '2019-03-27'),
-(20, '2019-03-29'),
-(20, '2019-03-31'),
-(20, '2019-04-01'),
-(21, '0000-00-00'),
-(22, '0000-00-00'),
-(23, '2019-03-03'),
-(23, '2019-03-27');
-
 -- --------------------------------------------------------
 
 --
@@ -105,6 +68,7 @@ INSERT INTO `trip_date` (`trip_id`, `trip_date`) VALUES
 --
 
 CREATE TABLE `trip_detail` (
+  `trip_detail_id` int(11) NOT NULL,
   `trip_id` int(11) NOT NULL,
   `trip_day` int(11) NOT NULL,
   `trip_detail_start` time NOT NULL,
@@ -113,20 +77,6 @@ CREATE TABLE `trip_detail` (
   `trip_detail_end_ap` varchar(2) NOT NULL,
   `trip_detail_description` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `trip_detail`
---
-
-INSERT INTO `trip_detail` (`trip_id`, `trip_day`, `trip_detail_start`, `trip_detail_end`, `trip_detail_start_ap`, `trip_detail_end_ap`, `trip_detail_description`) VALUES
-(11, 1, '02:01:00', '15:02:00', '', '', 'descript'),
-(12, 1, '00:00:00', '00:00:00', '', '', ''),
-(21, 1, '03:56:00', '03:56:00', 'PM', 'PM', 'ssws'),
-(21, 2, '03:56:00', '03:56:00', 'PM', 'PM', 'aaa'),
-(21, 2, '03:56:00', '03:56:00', 'PM', 'PM', 'aaaa'),
-(20, 1, '09:45:00', '10:47:00', 'AM', 'AM', 'Meeting on the first day ee'),
-(20, 1, '10:44:00', '06:45:00', 'AM', 'AM', 'Go to catch pig a'),
-(20, 2, '03:46:00', '06:46:00', 'AM', 'AM', 'Eat pig on day2');
 
 -- --------------------------------------------------------
 
@@ -139,15 +89,6 @@ CREATE TABLE `trip_photo` (
   `trip_photo_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `trip_photo`
---
-
-INSERT INTO `trip_photo` (`trip_id`, `trip_photo_name`) VALUES
-(19, '5c8a9a831da88.jpg'),
-(20, '5c8b65fdac9ab.png'),
-(20, '5c8b660114fc6.jpg');
-
 -- --------------------------------------------------------
 
 --
@@ -159,33 +100,26 @@ CREATE TABLE `trip_price` (
   `price_food` varchar(10) NOT NULL,
   `price_extra` mediumtext NOT NULL,
   `price_max_pass` int(11) NOT NULL,
-  `price_type` varchar(10) NOT NULL,
-  `price_unit1` int(11) NOT NULL,
-  `price_total1` int(11) NOT NULL,
-  `price_unit2` int(11) NOT NULL,
-  `price_total2` int(11) NOT NULL,
-  `price_unit3` int(11) NOT NULL,
-  `price_total3` int(11) NOT NULL,
-  `price_unit4` int(11) NOT NULL,
-  `price_total4` int(11) NOT NULL,
-  `price_unit5` int(11) NOT NULL,
-  `price_total5` int(11) NOT NULL,
-  `price_unit6` int(11) NOT NULL,
-  `price_total6` int(11) NOT NULL,
-  `price_unit7` int(11) NOT NULL,
-  `price_total7` int(11) NOT NULL,
-  `price_unit8` int(11) NOT NULL,
-  `price_total8` int(11) NOT NULL
+  `price_type` varchar(10) NOT NULL DEFAULT 'basic',
+  `price_unit1` float NOT NULL,
+  `price_total1` float NOT NULL,
+  `price_unit2` float NOT NULL,
+  `price_total2` float NOT NULL,
+  `price_unit3` float NOT NULL,
+  `price_total3` float NOT NULL,
+  `price_unit4` float NOT NULL,
+  `price_total4` float NOT NULL,
+  `price_unit5` float NOT NULL,
+  `price_total5` float NOT NULL,
+  `price_unit6` float NOT NULL,
+  `price_total6` float NOT NULL,
+  `price_unit7` float NOT NULL,
+  `price_total7` float NOT NULL,
+  `price_unit8` float NOT NULL,
+  `price_total8` float NOT NULL,
+  `price_children_allow` int(11) NOT NULL DEFAULT '0',
+  `price_children` float NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `trip_price`
---
-
-INSERT INTO `trip_price` (`trip_id`, `price_food`, `price_extra`, `price_max_pass`, `price_type`, `price_unit1`, `price_total1`, `price_unit2`, `price_total2`, `price_unit3`, `price_total3`, `price_unit4`, `price_total4`, `price_unit5`, `price_total5`, `price_unit6`, `price_total6`, `price_unit7`, `price_total7`, `price_unit8`, `price_total8`) VALUES
-(13, 'included', '', 1, 'basic', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(14, 'excluded', 'eteteasdf', 4, 'advance', 1, 1, 2, 4, 3, 9, 4, 16, 0, 0, 0, 0, 0, 0, 0, 0),
-(20, 'included', 'Bring money to buy pig aa', 4, 'advance', 1, 1, 2, 4, 3, 9, 4, 16, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -315,6 +249,12 @@ ALTER TABLE `trip_date`
   ADD PRIMARY KEY (`trip_id`,`trip_date`);
 
 --
+-- Indexes for table `trip_detail`
+--
+ALTER TABLE `trip_detail`
+  ADD PRIMARY KEY (`trip_detail_id`);
+
+--
 -- Indexes for table `trip_photo`
 --
 ALTER TABLE `trip_photo`
@@ -358,7 +298,13 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `trips`
 --
 ALTER TABLE `trips`
-  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `trip_detail`
+--
+ALTER TABLE `trip_detail`
+  MODIFY `trip_detail_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `trip_reservation`

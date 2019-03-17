@@ -81,6 +81,8 @@
       $price_total7 = $data['price_total7'];
       $price_unit8 = $data['price_unit8'];
       $price_total8 = $data['price_total8'];
+      $price_children_allow = $data['price_children_allow'];
+      $price_children = $data['price_children'];
 
       $sql = "SELECT * from trip_date WHERE trip_id='".$_SESSION['trip_id']."'";
       $result = $conn->query($sql);
@@ -125,6 +127,10 @@
   <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 
   <style>
+
+.dz-image img{width: auto;height: 100%;   left: 50%;
+   top: 50%;position:absolute;-webkit-transform: translateY(-50%) translateX(-50%);}
+
     .ui-datepicker {
 width: 100%; /*what ever width you want*/
 }
@@ -136,8 +142,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/01Gray.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0 px;
     }
@@ -145,8 +151,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/01.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -159,8 +165,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/02Gray.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -168,8 +174,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/02.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -182,8 +188,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/03Gray.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -191,8 +197,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/03.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -205,8 +211,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/04Gray.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -214,8 +220,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/04.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -228,8 +234,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/05Gray.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -237,8 +243,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/05.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -251,8 +257,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/06Gray.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -260,8 +266,8 @@ width: 100%; /*what ever width you want*/
     {
       background: url("con-icon/06.fw.png") no-repeat;
       background-size: 100%;
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       display:inline-block;
       padding: 0 0 0 0px;
     }
@@ -325,7 +331,7 @@ width: 100%; /*what ever width you want*/
                           <div class="col-md-5 col-sm-8">
                             <h4>Cover Image</h4>
                             <?php 
-                              if ($edit==0)
+                              if ($edit==0 || ($edit==1 && !$trip_cover))
                                 echo "<div class=\"fileinput fileinput-new text-center\" data-provides=\"fileinput\">";
                               else
                               echo "<div class=\"fileinput fileinput-exists text-center\" data-provides=\"fileinput\">";
@@ -512,7 +518,8 @@ width: 100%; /*what ever width you want*/
                       <div class="col-md-12 col-sm-12">
                         <div class="container" id="allDays">
                         <?php
-                          if($edit===0){
+                          $numday = sizeof(array_keys($trip_detail));
+                          if($edit==0 || $numday==0){
 
                             echo "<div class=\"container\" style=\"border: 1px solid black;\">";
                             echo    "<div class=\"row\" style=\"margin:5px\">";
@@ -531,7 +538,7 @@ width: 100%; /*what ever width you want*/
                             echo   "</div>";
                             echo  "</div>";
                           }else{
-                            $numday = sizeof(array_keys($trip_detail));
+                            
                             for($d=1;$d<=$numday;$d++){
                               if($d>1){
                                 echo "<br>";
@@ -594,7 +601,7 @@ width: 100%; /*what ever width you want*/
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input class="form-check-input" type="radio" name="price" id="food_included" value="food_included" <?php
-                                        if($edit===0 || $price_food==="included"){
+                                        if($edit==0 || $price_food=="included"){
                                           echo "checked";
                                         }
                                       ?>  onclick="setPriceText('include');"> All Inclusive
@@ -608,7 +615,7 @@ width: 100%; /*what ever width you want*/
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input class="form-check-input" type="radio" name="price" id="food_excluded" value="food_excluded" <?php
-                                        if($edit===1 && $price_food==="excluded"){
+                                        if($edit==1 && $price_food=="excluded"){
                                           echo "checked";
                                         }
                                       ?> onclick="setPriceText('exclude');" > Food Excluded
@@ -621,14 +628,14 @@ width: 100%; /*what ever width you want*/
                           <div class="col-sm-12 col-md-12">
                             <div class=container id='price_text'>
                               <?php 
-                                if($edit===0 || $price_food==="included"){
+                                if($edit==0 || $price_food=="included"){
                                   echo "<i class=\"material-icons\">local_dining</i>&nbsp;<i class=\"material-icons\">subway</i>&nbsp;<i class=\"material-icons\">local_offer</i>
                                   <p>Expenses, occur during a trip, are mainly included <br/>                     
                                         - Public or private transportation fares : taxi, bts, mrt, etc.(Please estimate the cost of gasoline or vehicle rental fee, in case of using a private car) <br/>
                                         - Foods; Meal(s) during the trip. (Please note that alcohol is always excluded) <br/>
                                         - Admission fee: Amusement park, gallery, shows, and etc.
                                   </p>";
-                                }else if($price_food==="excluded"){
+                                }else if($price_food=="excluded"){
                                   echo "<i class=\"material-icons\">local_dining</i>&nbsp;<i class=\"material-icons\">local_offer</i><br/><p>Travelers pay for their meal(s) during a trip. Only the following expenses are included. 
                                         <br/> Reminder; Local Experts should calculate your trip’s price including these two expenses <br/> 
                                         - Public or private transportation fares : taxi, bts, mrt, etc.(Please estimate the cost of gasoline or vehicle rental fee, in case of using a private car)  <br/> 
@@ -653,7 +660,7 @@ width: 100%; /*what ever width you want*/
                           </div>
                           <div class="col-md-12 col-sm-12" >
                             <br/>
-                            <textarea type="text" class="form-control" id="extra_expense" placeholder="e.g. your pocket money" /><?php if($edit===1) echo $price_extra;?></textarea> 
+                            <textarea type="text" class="form-control" id="extra_expense" placeholder="e.g. your pocket money" /><?php if($edit==1) echo $price_extra;?></textarea> 
                           </div>
                         </div>
                       </div>
@@ -699,7 +706,7 @@ width: 100%; /*what ever width you want*/
                               <label class="form-check-label">
                                 <input class="form-check-input" type="radio" name="price_type" id="basic_price" value="basic_price" 
                                     <?php
-                                      if($edit===0 || $price_type=="basic") echo "checked"; ?>  onclick="setPriceCal('basic');"> Basic Pricing
+                                      if($edit==0 || $price_type=="basic") echo "checked"; ?>  onclick="setPriceCal('basic');"> Basic Pricing
                                   <span class="circle">
                                   <span class="check"></span>
                                   </span>
@@ -708,7 +715,7 @@ width: 100%; /*what ever width you want*/
                               <div class="form-check">
                                 <label class="form-check-label">
                                   <input class="form-check-input" type="radio" name="price_type" id="advance_price" value="advance_price" <?php
-                                      if($edit===1 && $price_type=="advance") echo "checked"; ?> onclick="setPriceCal('advance');" > Advance Pricing
+                                      if($edit==1 && $price_type=="advance") echo "checked"; ?> onclick="setPriceCal('advance');" > Advance Pricing
                                     <span class="circle">
                                     <span class="check"></span>
                                     </span>
@@ -719,7 +726,7 @@ width: 100%; /*what ever width you want*/
                           <div class="col-md-6 col-sm-6">
                         <div class="container" id="price_cal">
                         <?php 
-                          if($edit===0){
+                          if($edit==0){
                             echo "<div class=\"card\">
                             <div class=\"card-content\">
                               <div class=\"row\" style=\"margin:2px;\">
@@ -729,7 +736,7 @@ width: 100%; /*what ever width you want*/
                             </div>
                           </div> ";
                           }else{
-                            if($price_type === "basic"){
+                            if($price_type == "basic"){
                               echo "<div class=\"card\">
                               <div class=\"card-content\">
                                 <div class=\"row\" style=\"margin:2px;\">
@@ -797,6 +804,37 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                         </div>
                       </div>                     
                       </div>
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                          <hr>
+                        </div>
+                        <div class="container">
+                          <div class="col-sm-12 cold-md-12">
+                           <span class="input-group-text">
+                              <i class="material-icons">child_care</i>  <h4>Additional Options</h4>
+                            </span>
+                          </div>
+                         <div class="col-md-12 col-sm-12" >
+                          <div class="form-check">
+                           <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" <?php if($edit==1 && $price_children_allow==1) echo "checked"; ?> value="" id="chkChildrenPrice"> Enable Child Price (Age 2-12)
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="cold-md-4 col-sm-4">
+                              <div id="dvChkChildrenPrice" <?php if($edit==0 || $price_children_allow==0) echo "style=\"display: none\"";?>>
+                              <div class="form-group">
+                                  <div class="input-group">
+                                    <input [(ngModel)]="destination" type="text" class="form-control" placeholder="0.00" id="price_children" <?php if($edit===1) echo "value=\"".$price_children."\"";?>/> THB (Per Child)
+                                  </div>
+                                </div>
+                          </div>
+                        </div>
+                        </div>
+                    </div>
                     
                     <div class="row">
                     <div class="col-md-12 col-sm-12" >
@@ -860,7 +898,7 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                     </div>
                     <div class="row">
                         <span class="input-group-text">
-                          <i class="material-icons">calendar_today</i>  <h4>Operting Days</h4>
+                          <i class="material-icons">calendar_today</i>  <h4>Operating Days</h4>
                         </span>
                     </div> 
                     <div class="row">
@@ -992,67 +1030,115 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
       else if (!input.files) {
         alert("This browser doesn't seem to support the `files` property of file inputs.");
       }
-      else if (!input.files[0]) {
-        alert("Please select a file before clicking 'Load'");               
-      }
       else {
-        var file_data = input.files[0];
-        var form_data = new FormData();                  
-        form_data.append('file', file_data);                         
-        $.ajax({
-          url: 'upload_handler.php', 
-          dataType: 'text',  // what to expect back from the PHP script, if anything
-          cache: false,
-          contentType: false,
-          processData: false,
-          data: form_data,                         
-          type: 'post',
-          success: function(php_script_response){
-            if (php_script_response.length <=2){
-              alert('Cannot upload cover photo!!');
-            }else{
-              users_user_id = "<?php echo $_SESSION["userID"];?>";
-              vehicleId = getVehicleId();
-              tripTypeId = getTripTypeId();
-              cover = php_script_response;
-              tripName = $('#trip_name').val();
-              tripSum = $('#trip_sum').val();
-              tripDest = $('#trip_dest').val();
-              tripAct = $('#trip_activity').val();
+        if(input.files[0])
+        { 
+          var file_data = input.files[0];
+          var form_data = new FormData();                  
+          form_data.append('file', file_data);                         
+          $.ajax({
+            url: 'upload_handler.php', 
+            dataType: 'text',  // what to expect back from the PHP script, if anything
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,                         
+            type: 'post',
+            success: function(php_script_response){
+              if (php_script_response.length <=2){
+                alert('Cannot upload cover photo!!');
+              }else{
+                users_user_id = "<?php echo $_SESSION["userID"];?>";
+                vehicleId = getVehicleId();
+                tripTypeId = getTripTypeId();
+                cover = php_script_response;
+                tripName = $('#trip_name').val();
+                tripSum = $('#trip_sum').val();
+                tripDest = $('#trip_dest').val();
+                tripAct = $('#trip_activity').val();
 
-              var form_basic = new FormData()
-              form_basic.append('users_user_id',users_user_id);
-              form_basic.append('trip_type_id',tripTypeId);
-              form_basic.append('vehicle_id',vehicleId);
-              form_basic.append('trip_name',tripName);
-              form_basic.append('trip_sum',tripSum);
-              form_basic.append('trip_dest',tripDest);
-              form_basic.append('trip_activity',tripAct);
-              form_basic.append('trip_cover',cover);
-              form_basic.append('tab','basic');
-              $.ajax({
-                 url: 'newtrip_backend.php', 
-                 dataType: 'text',  // what to expect back from the PHP script, if anything
-                 cache: false,
-                 contentType: false,
-                 processData: false,
-                data: form_basic,                         
-                type: 'post',
-                success: function(msg){
-                  if (msg.length<10){
-                    $('#basicTab').removeClass('active');
-                    $('#basic').removeClass('active');
-                    $('#overviewTab').addClass('active');
-                    $('#overview').addClass('active');
-                  }else{
-                    alert("Error: " + msg);
+                var form_basic = new FormData()
+                form_basic.append('users_user_id',users_user_id);
+                form_basic.append('trip_type_id',tripTypeId);
+                form_basic.append('vehicle_id',vehicleId);
+                form_basic.append('trip_name',tripName);
+                form_basic.append('trip_sum',tripSum);
+                form_basic.append('trip_dest',tripDest);
+                form_basic.append('trip_activity',tripAct);
+                form_basic.append('trip_cover',cover);
+                form_basic.append('tab','basic');
+                $.ajax({
+                  url: 'newtrip_backend.php', 
+                  dataType: 'text',  // what to expect back from the PHP script, if anything
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  data: form_basic,                         
+                  type: 'post',
+                  success: function(msg){
+                    if (msg.length<10){
+                      $('#basicTab').removeClass('active');
+                      $('#basic').removeClass('active');
+                      $('#overviewTab').addClass('active');
+                      $('#overview').addClass('active');
+                    }else{
+                      alert("Error: " + msg);
+                    }
                   }
-                }
-              });
+                });
 
+              }
             }
-          }
-         });
+          });
+        }else{
+
+                users_user_id = "<?php echo $_SESSION["userID"];?>";
+                vehicleId = getVehicleId();
+                tripTypeId = getTripTypeId();
+                cover = "";
+                <?php 
+                  if($edit==1){
+                    echo "cover='".$trip_cover."';";
+                  }
+                  ?>
+                tripName = $('#trip_name').val();
+                tripSum = $('#trip_sum').val();
+                tripDest = $('#trip_dest').val();
+                tripAct = $('#trip_activity').val();
+
+                var form_basic = new FormData()
+                form_basic.append('users_user_id',users_user_id);
+                form_basic.append('trip_type_id',tripTypeId);
+                form_basic.append('vehicle_id',vehicleId);
+                form_basic.append('trip_name',tripName);
+                form_basic.append('trip_sum',tripSum);
+                form_basic.append('trip_dest',tripDest);
+                form_basic.append('trip_activity',tripAct);
+                form_basic.append('trip_cover',cover);
+                form_basic.append('tab','basic');
+                $.ajax({
+                  url: 'newtrip_backend.php', 
+                  dataType: 'text',  // what to expect back from the PHP script, if anything
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  data: form_basic,                         
+                  type: 'post',
+                  success: function(msg){
+                    if (msg.length<10){
+                      $('#basicTab').removeClass('active');
+                      $('#basic').removeClass('active');
+                      $('#overviewTab').addClass('active');
+                      $('#overview').addClass('active');
+                    }else{
+                      alert("Error: " + msg);
+                    }
+                  }
+                });
+
+              
+
+        }
       }  
     }
 
@@ -1085,7 +1171,10 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
             for (i = 0; i < existing_file.length; i++) {
               if (added_file.includes(existing_file[i].name)){
                 myDropzone.emit("addedfile", existing_file[i]);
+              
+                //myDropzone.createThumbnailFromUrl(existing_file[i], "http://localhost/trip/upload/"+existing_file[i].name);
                 myDropzone.emit("thumbnail", existing_file[i], "upload/"+existing_file[i].name);
+                console.log("http://localhost/trip/upload/"+existing_file[i].name);
                 myDropzone.emit("complete", existing_file[i]);     
                 dict[existing_file[i].name] = existing_file[i].name;
                 myDropzone.files.push(existing_file[i]);
@@ -1274,7 +1363,7 @@ materialKit.initSliders();
     }
     var map=new google.maps.Map(document.getElementById("map"),mapProp);
     <?php
-      if ($edit===1){
+      if ($edit===1 && $trip_meeting_addr){
         echo "var position = new google.maps.LatLng(".$trip_meeting_lat.", ".$trip_meeting_lng.");";
         echo "placeMarker(position,map);";
         echo "var isClick=true;";
@@ -1350,6 +1439,15 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
 </script>
 <!-- fourth tab: price -->
 <script>
+$(function () {
+        $("#chkChildrenPrice").click(function () {
+            if ($(this).is(":checked")) {
+                $("#dvChkChildrenPrice").show();
+            } else {
+                $("#dvChkChildrenPrice").hide();
+            }
+        });
+    });
     function backFromPrice(){
       $('#detailTab').addClass('active');
       $('#detail').addClass('active');
@@ -1384,6 +1482,14 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
         }
       }
 
+      if ($("#chkChildrenPrice").is(":checked")){
+          var price_children_allow = 1;
+          var price_children = $("#price_children").val();
+      }else{
+          var price_children_allow = 0;
+          var price_children = 0.0;
+      }
+
       var string_unit = JSON.stringify( unit_price );
       var string_total = JSON.stringify( total_price );
 
@@ -1394,6 +1500,8 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
       form_price.append('price_type', price_type);
       form_price.append('price_unit',string_unit);
       form_price.append('price_total',string_total);
+      form_price.append('price_children_allow',price_children_allow);
+      form_price.append('price_children',price_children);
       form_price.append('tab','price');
       $.ajax({
           url: 'newtrip_backend.php', 
