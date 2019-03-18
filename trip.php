@@ -4,17 +4,100 @@
     require_once("functions.php");
     include('include/user.php');
     $user = new User();
-    if ($conn->connect_errno) {
-      echo $conn->connect_error;
-      exit;
+    include("db_connect.php");
+
+    if (!isset($_GET['trip_id'])){
+      exit();
     }
-    else
-    {
-      $sql="SELECT * FROM users WHERE user_id = '".$_SESSION["userID"]."' LIMIT 1";
-      $result = $mysqli->query($sql); // ทำการ query คำสั่ง sql 
-      $total=$result->num_rows; 
-      $user=$result->fetch_object();
+    $_SESSION['trip_id'] = $_GET['trip_id'];
+    $sql = "SELECT * from trips WHERE trip_id='".$_SESSION['trip_id']."'";
+    $result = $conn->query($sql);
+    $data = $result->fetch_assoc();
+    $trip_type_id = $data['trip_type_id'];
+    $vehicle_id = $data['vehicle_id'];
+    $users_user_id = $data['users_user_id'];
+    $trip_name = $data['trip_name'];
+    $trip_dest = $data['trip_dest'];
+    $trip_sum = $data['trip_sum'];
+    $trip_activity = $data['trip_activity'];
+    $trip_cover = $data['trip_cover'];
+    $trip_meeting_addr = $data['trip_meeting_addr'];
+    $trip_meeting_lat = $data['trip_meeting_lat'];
+    $trip_meeting_lng = $data['trip_meeting_lng'];
+    $trip_condition_casual = $data['trip_condition_casual'];
+    $trip_condition_physical = $data['trip_condition_physical'];
+    $trip_condition_vegan = $data['trip_condition_vegan'];
+    $trip_condition_children = $data['trip_condition_children'];
+    $trip_condition_flexible = $data['trip_condition_flexible'];
+    $trip_condition_seasonal  = $data['trip_condition_seasonal'];
+
+    $sql = "SELECT * from trip_photo WHERE trip_id='".$_SESSION['trip_id']."'";
+    $result = $conn->query($sql);
+    $photo_arr = array();
+    while($row = $result->fetch_assoc()) {
+      array_push($photo_arr,$row['trip_photo_name']);
     }
+
+    $sql = "SELECT * from trip_detail WHERE trip_id='".$_SESSION['trip_id']."'";
+    $result = $conn->query($sql);
+    $trip_detail = array();
+    while($row=$result->fetch_assoc()){
+      $trip_day = $row['trip_day'];
+      $trip_detail_start = $row['trip_detail_start'];
+      $trip_detail_start_ap = $row['trip_detail_start_ap'];
+      $trip_detail_end = $row['trip_detail_end'];
+      $trip_detail_end_ap = $row['trip_detail_end_ap'];
+      $trip_detail_description = $row['trip_detail_description'];
+      if( !array_key_exists($trip_day,$trip_detail) ){
+          $trip_detail[$trip_day] = array();
+      }
+      $detail = array('trip_detail_start'=>$trip_detail_start, 'trip_detail_start_ap'=>$trip_detail_start_ap, 'trip_detail_end'=>$trip_detail_end, 'trip_detail_end_ap'=>$trip_detail_end_ap, 'trip_detail_description'=>$trip_detail_description);
+      array_push($trip_detail[$trip_day], $detail);
+    }
+    $numday = sizeof(array_keys($trip_detail));
+
+    $sql = "SELECT * from trip_price WHERE trip_id='".$_SESSION['trip_id']."'";
+    $result = $conn->query($sql);
+    $data = $result->fetch_assoc();
+    $price_food = $data['price_food'];
+    $price_extra = $data['price_extra'];
+    $price_max_pass = $data['price_max_pass'];
+    $price_type = $data['price_type'];
+    $price_unit1 = $data['price_unit1'];
+    $price_total1 = $data['price_total1'];
+    $price_unit2 = $data['price_unit2'];
+    $price_total2 = $data['price_total2'];
+    $price_unit3 = $data['price_unit3'];
+    $price_total3 = $data['price_total3'];
+    $price_unit4 = $data['price_unit4'];
+    $price_total4 = $data['price_total4'];
+    $price_unit5 = $data['price_unit5'];
+    $price_total5 = $data['price_total5'];
+    $price_unit6 = $data['price_unit6'];
+    $price_total6 = $data['price_total6'];
+    $price_unit7 = $data['price_unit7'];
+    $price_total7 = $data['price_total7'];
+    $price_unit8 = $data['price_unit8'];
+    $price_total8 = $data['price_total8'];
+    $price_children_allow = $data['price_children_allow'];
+    $price_children = $data['price_children'];
+
+    $sql = "SELECT * from trip_date WHERE trip_id='".$_SESSION['trip_id']."'";
+    $result = $conn->query($sql);
+    $date_array = array();
+    while($row=$result->fetch_assoc()){
+      $d = $row['trip_date'];
+      $data = explode('-',$d);
+      $d1 = $data[1]."/".$data[2]."/".$data[0];
+      array_push($date_array,$d1);
+    }
+  
+    $sql="SELECT * FROM users WHERE user_id = '".$users_user_id."' LIMIT 1";
+    $result = $mysqli->query($sql); // ทำการ query คำสั่ง sql 
+    $data = $result->fetch_assoc();
+    $picture = $data['picture'];
+    $firstname = $data['first_name'];
+    $lastname = $data['last_name'];
     
 ?>
 <!DOCTYPE html>
@@ -39,16 +122,23 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="./assets/demo/demo.css" rel="stylesheet" />
   <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
+  <link href="./assets/css/radiobuttons.css" rel="stylesheet" />
 </head>
 
 <body class="profile-page sidebar-collapse">
   <?php include('header.php') ?>
-  <div class="page-header header-filter header-small" data-parallax="true" style="background-image: url('../assets/img/bg9.jpg');">
+  <div class="page-header header-filter header-small" data-parallax="true"
+    <?php
+      if(strlen($trip_cover)>0)
+        echo "style=\"background-image: url('upload/".$trip_cover."');\"";
+      else
+        echo "style=\"background-image: url('assets/img/bg9.jpg');\"";
+    ?> >
     <div class="container">
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto text-center">
-          <h1 class="title">Trip name</h1>
-          <h4>Trip shot description</h4>
+          <h1 class="title"><?php echo $trip_name; ?></h1>
+          <h4><?php echo $trip_sum; ?></h4>
         </div>
       </div>
     </div>
@@ -60,10 +150,10 @@
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile">
               <div class="avatar">
-                <img src="<?php echo $_SESSION['photoURL']; ?>" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                <img src="<?php echo $picture; ?>" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <div class="name">
-                <h3 class="title">Trip owner</h3>
+                <h3 class="title"><?php echo $firstname." ".$lastname; ?></h3>
                 <h6>Level 3</h6>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-dribbble"><i class="fa fa-dribbble"></i></a>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
@@ -76,10 +166,67 @@
                 <div class="card-body">
                 <div class="row">
                   <div class="col-md-8">
-                    <p class="description">Trip content
-                      <br>
-                      <br>
-                    </p>
+                    <div class="row">
+                      <div class="col-sm-12 col-md-12">
+                            <span class="input-group-text">
+                               <h3><b><?php echo $trip_name; ?></b></h3>
+                            </span>
+                            <p><?php echo $trip_dest; ?></p><br/><hr>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <?php
+                        if($vehicle_id==1)
+                          echo "<div class=\"col-sm-4 col-md-4\"><div class=\"cc-selector\"><input [(ngModel)]=\"vehicle\" class=\"form-check-input\" checked=\"checked\" id=\"walk\" type=\"radio\" name=\"vehicle\" value=\"walk\" /><label class=\"drinkcard-cc walk\" for=\"walk\"></label></div></div>"; 
+                        else if($vehicle_id==2)
+                          echo "<div class=\"col-sm-4 col-md-4\"><div class=\"cc-selector\"><input [(ngModel)]=\"vehicle\" class=\"form-check-input\" checked=\"checked\" id=\"walk\" type=\"radio\" name=\"vehicle\" value=\"car\" /><label class=\"drinkcard-cc car\" for=\"car\"></label></div></div>"; 
+                        else if($vehicle_id==3)
+                          echo "<div class=\"col-sm-4 col-md-4\"><div class=\"cc-selector\"><input [(ngModel)]=\"vehicle\" class=\"form-check-input\" checked=\"checked\" id=\"van\" type=\"radio\" name=\"vehicle\" value=\"van\" /><label class=\"drinkcard-cc van\" for=\"van\"></label></div></div>"; 
+                        else if($vehicle_id==4)
+                          echo "<div class=\"col-sm-4 col-md-4\"><div class=\"cc-selector\"><input [(ngModel)]=\"vehicle\" class=\"form-check-input\" checked=\"checked\" id=\"motorbike\" type=\"radio\" name=\"vehicle\" value=\"motorbike\" /><label class=\"drinkcard-cc motorbike\" for=\"motorbike\"></label></div></div>"; 
+                        else if($vehicle_id==5)
+                          echo "<div class=\"col-sm-4 col-md-4\"><div class=\"cc-selector\"><input [(ngModel)]=\"vehicle\" class=\"form-check-input\" checked=\"checked\" id=\"bike\" type=\"radio\" name=\"vehicle\" value=\"bike\" /><label class=\"drinkcard-cc bike\" for=\"bike\"></label></div></div>"; 
+                        else if($vehicle_id==6)
+                          echo "<div class=\"col-sm-4 col-md-4\"><div class=\"cc-selector\"><input [(ngModel)]=\"vehicle\" class=\"form-check-input\" checked=\"checked\" id=\"boat\" type=\"radio\" name=\"vehicle\" value=\"boat\" /><label class=\"drinkcard-cc boat\" for=\"boat\"></label></div></div>"; 
+                        else if($vehicle_id==7)
+                          echo "<div class=\"col-sm-4 col-md-4\"><div class=\"cc-selector\"><input [(ngModel)]=\"vehicle\" class=\"form-check-input\" checked=\"checked\" id=\"public\" type=\"radio\" name=\"vehicle\" value=\"public\" /><label class=\"drinkcard-cc public\" for=\"public\"></label></div></div>"; 
+                      ?>
+                      <?php
+                        if($numday > 0 ){
+                          echo "<div class=\"col-sm-4 col-md-4\" align=\"center\"><div class=\"row\"><span class=\"input-group-text\"><i class=\"material-icons\">watch_later</i> </span></div><div class=\"row\"><p>".$numday." Day(s)</p></div></div>";
+                        }
+
+                        if($price_max_pass > 0 ){
+                          echo "<div class=\"col-sm-4 col-md-4\" align=\"center\"><div class=\"row\"><span class=\"input-group-text\"><i class=\"material-icons\">people</i> </span></div><div class=\"row\"><p>1 - ".$price_max_pass." Traveller(s)</p></div></div>";
+                        }
+
+                        if( ($vehicle_id>=1&&$vehicle_id<=7) || $numday > 0 || $price_max_pass > 0) 
+                          echo "<div class=\"col-md-12 col-sm=12\"><hr></div>";
+                      ?>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12 col-md-12">
+                            <span class="input-group-text">
+                               <h4><b>Trip Summarize</b></h4>
+                            </span>
+                            <p><?php echo $trip_sum; ?></p><br/><hr>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12 col-md-12">
+                            <span class="input-group-text">
+                               <h4><b>Trip Detail</b></h4>
+                            </span>
+                            <div class="container">
+                              <div class="row">
+                              MAP
+                              </div>
+                              <div class="row">
+                              detailsssssss
+                              </div>
+                            </div>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sd-4">
                 <div class="card card-pricing">

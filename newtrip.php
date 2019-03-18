@@ -518,7 +518,8 @@ width: 100%; /*what ever width you want*/
                       <div class="col-md-12 col-sm-12">
                         <div class="container" id="allDays">
                         <?php
-                          $numday = sizeof(array_keys($trip_detail));
+                          if($edit==1)
+                            $numday = sizeof(array_keys($trip_detail));
                           if($edit==0 || $numday==0){
 
                             echo "<div class=\"container\" style=\"border: 1px solid black;\">";
@@ -601,7 +602,7 @@ width: 100%; /*what ever width you want*/
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input class="form-check-input" type="radio" name="price" id="food_included" value="food_included" <?php
-                                        if($edit==0 || $price_food=="included"){
+                                        if($edit==0 || $price_food!="excluded"){
                                           echo "checked";
                                         }
                                       ?>  onclick="setPriceText('include');"> All Inclusive
@@ -628,7 +629,7 @@ width: 100%; /*what ever width you want*/
                           <div class="col-sm-12 col-md-12">
                             <div class=container id='price_text'>
                               <?php 
-                                if($edit==0 || $price_food=="included"){
+                                if($edit==0 || $price_food!="excluded"){
                                   echo "<i class=\"material-icons\">local_dining</i>&nbsp;<i class=\"material-icons\">subway</i>&nbsp;<i class=\"material-icons\">local_offer</i>
                                   <p>Expenses, occur during a trip, are mainly included <br/>                     
                                         - Public or private transportation fares : taxi, bts, mrt, etc.(Please estimate the cost of gasoline or vehicle rental fee, in case of using a private car) <br/>
@@ -706,7 +707,7 @@ width: 100%; /*what ever width you want*/
                               <label class="form-check-label">
                                 <input class="form-check-input" type="radio" name="price_type" id="basic_price" value="basic_price" 
                                     <?php
-                                      if($edit==0 || $price_type=="basic") echo "checked"; ?>  onclick="setPriceCal('basic');"> Basic Pricing
+                                      if($edit==0 || ($price_type!="basic" && $price_type!="advance")) echo "checked"; ?>  onclick="setPriceCal('basic');"> Basic Pricing
                                   <span class="circle">
                                   <span class="check"></span>
                                   </span>
@@ -726,7 +727,7 @@ width: 100%; /*what ever width you want*/
                           <div class="col-md-6 col-sm-6">
                         <div class="container" id="price_cal">
                         <?php 
-                          if($edit==0){
+                          if($edit==0 || ($price_type!="basic" && $price_type!="advance")){
                             echo "<div class=\"card\">
                             <div class=\"card-content\">
                               <div class=\"row\" style=\"margin:2px;\">
@@ -1703,10 +1704,12 @@ function newtrip_submit(){
 
       
       <?php
-        if ($edit===0){
+        if($edit==1)
+          $numday = sizeof(array_keys($trip_detail));
+        if ($edit==0 || $numday==0 ){
             echo "detailArr[1] = new Array(); detailArr[1].push(1);";
         }else{
-          $numday = sizeof(array_keys($trip_detail));
+          
           for($d=1;$d<=$numday;$d++){
             echo "detailArr[".$d."] = new Array();";
             $periods = $trip_detail[$d];
