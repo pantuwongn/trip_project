@@ -123,6 +123,151 @@
   <link href="./assets/demo/demo.css" rel="stylesheet" />
   <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
   <link href="./assets/css/radiobuttons.css" rel="stylesheet" />
+  <style>
+  #map {
+  height:400px; 
+  margin:0px;
+  border: 1px solid black;
+  }
+  input[name="smart_casual"]  {
+      display:none;
+    }
+ 
+    input[name="smart_casual"] + label
+    {
+      background: url("con-icon/01Gray.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0 px;
+    }
+    input[name="smart_casual"]:checked + label
+    {
+      background: url("con-icon/01.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    
+    input[name="physical_strength"]  {
+      display:none;
+    }
+ 
+    input[name="physical_strength"] + label
+    {
+      background: url("con-icon/02Gray.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input[name="physical_strength"]:checked + label
+    {
+      background: url("con-icon/02.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+
+    input[name="vegan"]  {
+      display:none;
+    }
+ 
+    input[name="vegan"] + label
+    {
+      background: url("con-icon/03Gray.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input[name="vegan"]:checked + label
+    {
+      background: url("con-icon/03.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+
+    input[name="children"]  {
+      display:none;
+    }
+ 
+    input[name="children"] + label
+    {
+      background: url("con-icon/04Gray.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input[name="children"]:checked + label
+    {
+      background: url("con-icon/04.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+
+    input[name="flexible"]  {
+      display:none;
+    }
+ 
+    input[name="flexible"] + label
+    {
+      background: url("con-icon/05Gray.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input[name="flexible"]:checked + label
+    {
+      background: url("con-icon/05.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+
+    input[name="seasonal"]  {
+      display:none;
+    }
+ 
+    input[name="seasonal"] + label
+    {
+      background: url("con-icon/06Gray.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+    input[name="seasonal"]:checked + label
+    {
+      background: url("con-icon/06.fw.png") no-repeat;
+      background-size: 100%;
+      height: 72px;
+      width: 72px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+}
+  </style>
 </head>
 
 <body class="profile-page sidebar-collapse">
@@ -138,7 +283,7 @@
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto text-center">
           <h1 class="title"><?php echo $trip_name; ?></h1>
-          <h4><?php echo $trip_sum; ?></h4>
+          <h4><?php echo $trip_dest; ?></h4>
         </div>
       </div>
     </div>
@@ -171,7 +316,6 @@
                             <span class="input-group-text">
                                <h3><b><?php echo $trip_name; ?></b></h3>
                             </span>
-                            <p><?php echo $trip_dest; ?></p><br/><hr>
                       </div>
                     </div>
                     <div class="row">
@@ -219,12 +363,128 @@
                             </span>
                             <div class="container">
                               <div class="row">
-                              MAP
+                              <span class="input-group-text">
+                               <h6><b>Meeting Point (On the first date)</b></h6>
+                              </span>
+                                <div id="map"></div> 
+                                <?php 
+                                  if (strlen($trip_meeting_addr)>0){
+                                    echo "<br><u>Meeting at :</u><p><i>".$trip_meeting_addr."</i></p>";
+                                  }
+                                ?>
                               </div>
                               <div class="row">
-                              detailsssssss
+                              <span class="input-group-text">
+                               <h6><b>Detail</b></h6>
+                              </span>
+                              <?php
+                                if($numday==0){
+                                  echo "<p> No detail. </p>";
+                                }else{
+                                  for($d=1;$d<=$numday;$d++){
+                                    if($d>1){
+                                      echo "<br>";
+                                    }
+                                    echo "<div class=\"col-md-12 col-sm-12\" style=\"margin:5px\">";
+                                    echo "<p><u>Detail for Day ".$d."</u></p>";
+
+                                    echo "<div class=\"table-responsive\">";
+                                    echo "<table class=\"table\">";
+                                    echo "<thead>";
+                                    echo "<tr>";
+                                    echo "<th class=\"text-center\">Start</th>";
+                                    echo "<th class=\"text-center\">End</th>";
+                                    echo "<th class=\"text-center\">Description</th>";
+                                    echo "</tr>";
+                                    echo "</thead>";
+                                    echo "<tbody>";
+                                    $details = $trip_detail[$d];
+                                    for($p=1;$p<=sizeof($details);$p++){
+                                      $start_time = $details[$p-1]['trip_detail_start']." ".$details[$p-1]['trip_detail_start_ap'];
+                                      $end_time = $details[$p-1]['trip_detail_end']." ".$details[$p-1]['trip_detail_end_ap']; 
+                                      echo "<tr>";
+                                      echo "<td class=\"text-center\">".$start_time."</td>";
+                                      echo "<td class=\"text-center\">".$end_time."</td>";
+                                      echo "<td class=\"text-center\">".$details[$p-1]['trip_detail_description']."</td>";
+                                      echo "</tr>";
+                                    }
+                                    echo "</tbody>";
+                                    echo "</table>";
+                                    echo "</div>";
+                                    echo "</div>";
+ 
+                                  }
+                                }
+                                echo "<div class=\"col-sm-12 col-md-12\"><hr></div>";
+                              ?>
                               </div>
                             </div>
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                          <span class="input-group-text">
+                            <h4><b>Extra Conditions</b></h4>
+                          </span>
+                      </div> 
+                    <div class="col-md-12 col-sm-12">
+                        <?php
+                          if(!($trip_condition_casual==1 || $trip_condition_physical==1 || $trip_condition_vegan==1 || $trip_condition_children==1 || $trip_condition_flexible==1 || $trip_condition_seasonal==1))
+                          {
+                            echo "<p>No additional conditions</p>";
+                          }
+                          else{
+                            echo "<div class=\"row\">";
+                            if($trip_condition_casual==1){
+                              echo "<a href=\"#\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Travelers need to wear appropriate outfits neutral colors, no sleeveless shirts and shorts.The dress code's featured most of these locations;temples, museum, or any official places.\">
+                              <div class=\"col-md-4 col-sm-4\" align=\"center\">
+                                  <input type='checkbox' name=\"smart_casual\" value=\"1\" disabled checked id=\"smart_casual\"/><label for=\"smart_casual\"></label> 
+                              </div>
+                              </a>";
+                            }
+                            if($trip_condition_physical==1){
+                              echo "<a href=\"#\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Travelers need to be fit and firm, so it will be easier for them to complete your trip. Select this condition, if your trip featured these following activities; boxing, hiking, trekking, kayaking, rafting, etc.\">
+                              <div class=\"col-md-4 col-sm-4\" align=\"center\">
+                               <input type='checkbox' name='physical_strength' disabled checked value='1' id=\"physical_strength\"/><label for=\"physical_strength\"></label> 
+                              </div>
+                            </a>";
+                            }
+                            if($trip_condition_vegan==1){
+                              echo "<a href=\"#\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Select this condition, if your trip has alternative choices for vegetable meals.\">
+                              <div class=\"col-md-4 col-sm-4\" align=\"center\">
+                                 <input type='checkbox' name='vegan' value='1' disabled checked id=\"vegan\"/><label for=\"vegan\"></label> 
+                              </div>
+                              </a>";
+                            }
+                            if($trip_condition_children==1){
+                              echo "<a href=\"#\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Any activities that travelers can enjoy with their family members and is good with kids, such as going to an amusement park, watching a performance, joining a pottery workshop, etc, can be considered to this condition.\">
+                              <div class=\"col-md-4 col-sm-4\" align=\"center\">
+                                  <input type='checkbox' name='children' value='1' disabled checked id=\"children\"/><label for=\"children\"></label> 
+                              </div>
+                            </a>";
+                            }
+                            if($trip_condition_flexible=1){
+                              echo "<a href=\"#\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Although you stick to your listed itinerary, your trip may be adjusted accordingly to your travelers.\">
+                              <div class=\"col-md-4 col-sm-4\" align=\"center\">
+                                  <input type='checkbox' name='flexible' value='1' disabled checked id=\"flexible\"/><label for=\"flexible\"></label> 
+                              </div>
+                            </a>";
+                            }
+                            if($trip_condition_seasonal==1){
+                              echo "<a href=\"#\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"For any activities places of your trip can be accessed seasonally for example, trekking to the top of Khitchakut mountain, visiting a tropical fruit farm, sightseeing at a national park, and etc, please select this condition.\">
+                              <div class=\"col-md-4 col-sm-4\" align=\"center\">
+                                 <input type='checkbox' name='seasonal' value='1' disabled checked id=\"seasonal\"/><label for=\"seasonal\"></label> 
+                              </div>
+                              </a>";
+                            }
+                            echo "</div>";
+                          }
+                        ?>
+                    
+
+                    </div>
+                    <div class="col-md-12 col-sm-12"> 
+                    <hr>
+                    </div>
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -235,18 +495,19 @@
                     <label class="label-control">Date Picker</label>
                     <input type="text" class="form-control datepicker" value="10/10/2016">
                   </div>
-                    <h1 class="card-title">2,000<small>THB</small></h1>
+                    <h3 class="card-title" id="total_price">0.00<small>THB</small></h3>
                     <ul>
-                        <li>Adult {{basicPrice}} x {{adultTraveler}} = {{basicPrice * adultTraveler}} THB<br>
-                          <button class="btn btn-fab btn-round btn-info" data-dir="dwn" (click)="adultNumberSpinner('down')"> <i class="material-icons">remove</i> </button>
-                          <button class="btn btn-fab btn-round btn-info" data-dir="up" (click)="adultNumberSpinner('up')"> <i class="material-icons">add</i> </button>
-
+                        <li><p id="adult_price">0 Adults ( 0.00 THB )</p><br>
+                          <button class="btn btn-fab btn-round btn-info" data-dir="dwn" (click)="adultNumberSpinner('down')" onclick="adultNumberSpinner('down');"> <i class="material-icons">remove</i> </button>
+                          <button class="btn btn-fab btn-round btn-info" data-dir="up" (click)="adultNumberSpinner('up')" onclick="adultNumberSpinner('up');"> <i class="material-icons">add</i> </button>
+                        </li>
+                        <li>
                         <br>
                         <div *ngIf="childrenTraveler!=0; then thenBlock else elseBlock"></div>
                         <ng-template #thenBlock>
-                          Children {{childrenPrice}} x {{childrenTraveler}} = {{childrenPrice * childrenTraveler}} THB<br>
-                          <button class="btn btn-fab btn-round btn-info" data-dir="dwn" (click)="childrenNumberSpinner('down')"> <i class="material-icons">remove</i> </button>
-                          <button class="btn btn-fab btn-round btn-info" data-dir="up" (click)="childrenNumberSpinner('up')"> <i class="material-icons">add</i> </button></ng-template>
+                        <p id="children_price">0 Children ( 0.00 THB )</p><br>
+                          <button class="btn btn-fab btn-round btn-info" data-dir="dwn" (click)="childrenNumberSpinner('down')" onclick="childrenNumberSpinner('down');"> <i class="material-icons">remove</i> </button>
+                          <button class="btn btn-fab btn-round btn-info" data-dir="up" (click)="childrenNumberSpinner('up')" onclick="childrenNumberSpinner('up');"> <i class="material-icons">add</i> </button></ng-template>
                         <ng-template #elseBlock></ng-template>
                         </li>
                         <li><button class="btn btn-warning btn-round" (click)="onReserved()">Book now</button></li>
@@ -294,8 +555,115 @@
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
   <script src="./assets/js/material-kit.js?v=2.1.1" type="text/javascript"></script>
   <script>
-    $(document).ready(function() {
+    function adultNumberSpinner(mode){
+      if(mode=='up'){
+        if (num_adult+num_children+1 > max_pass){
+          alert("Exceed maximum passenger!!!!");
+        }else{
+          num_adult = num_adult+1;
+          calculate_price();
+        }
+      }else if(mode=="down"){
+        if(num_adult>=1){
+          num_adult = num_adult-1;
+          calculate_price();
+        }
+      }
+    }
+    function childrenNumberSpinner(mode){
+      if(mode=='up'){
+        if (num_adult+num_children+1 > max_pass){
+          alert("Exceed maximum passenger!!!!");
+        }else{
+          num_children = num_children+1;
+          calculate_price();
+        }
+      }else if(mode=="down"){
+        if(num_children>=1){
+          num_children = num_children-1;
+          calculate_price();
+        }
+      }
+    }
+    function calculate_price(){
+      var adult_price = 0.0;
+      if(price_type=="basic"){
+        adult_price = num_adult*unit1;
+      }else{
+        if(num_adult == 1){
+          adult_price = total1;
+        }else if(num_adult == 2){
+          adult_price = total2;
+        }else if(num_adult == 3){
+          adult_price = total3;
+        }else if(num_adult == 4){
+          adult_price = total4;
+        }else if(num_adult == 5){
+          adult_price = total5;
+        }else if(num_adult == 6){
+          adult_price = total6;
+        }else if(num_adult == 7){
+          adult_price = total7;
+        }else if(num_adult == 8){
+          adult_price = total8;
+        }
+        var adult_text = num_adult+" Adults ("+adult_price+" THB)";
+        $('#adult_price').html(adult_text);
 
+        var children_price = num_children * price_children;
+        var children_text = num_children+" Children ("+children_price+" THB)";
+        $('#children_price').html(children_text);
+
+        var total_price = adult_price + children_price;
+        $('#total_price').html(total_price);
+
+      }
+    }
+  </script>
+  <script>
+    var num_adult;
+    var num_children;
+    var price_children;
+    var max_pass;
+    var price_type;
+    var unit1;
+    var total1;
+    var unit2;
+    var total2;
+    var unit3;
+    var total3;
+    var unit4;
+    var total4;
+    var unit5;
+    var total5;
+    var unit6;
+    var total6;
+    var unit7;
+    var total7;
+    var unit8;
+    var total8;
+    $(document).ready(function() {
+      num_adult = 0;
+      num_children = 0;
+    <?php echo "price_children=".$price_children.";"; ?>
+    <?php echo "max_pass=".$price_max_pass.";"; ?>
+    <?php echo "price_type='".$price_type."';"; ?>
+    <?php echo "unit1=".$price_unit1.";"; ?>
+    <?php echo "total1=".$price_total1.";"; ?>
+    <?php echo "unit2=".$price_unit2.";"; ?>
+    <?php echo "total2=".$price_total2.";"; ?>
+    <?php echo "unit3=".$price_unit3.";"; ?>
+    <?php echo "total3=".$price_total3.";"; ?>
+    <?php echo "unit4=".$price_unit4.";"; ?>
+    <?php echo "total4=".$price_total4.";"; ?>
+    <?php echo "unit5=".$price_unit5.";"; ?>
+    <?php echo "total5=".$price_total5.";"; ?>
+    <?php echo "unit6=".$price_unit6.";"; ?>
+    <?php echo "total6=".$price_total6.";"; ?>
+    <?php echo "unit7=".$price_unit7.";"; ?>
+    <?php echo "total7=".$price_total7.";"; ?>
+    <?php echo "unit8=".$price_unit8.";"; ?>
+    <?php echo "total8=".$price_total8.";"; ?>
 
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-46172202-1']);
@@ -340,6 +708,47 @@
 
     });
   </script>
+  <script>
+  
+  function myMap() {
+    var x = document.getElementById("map");
+    console.log(x);
+    var mapProp= {
+      <?php
+        if(strlen($trip_meeting_lat) > 0 && strlen($trip_meeting_lng>0))
+          echo "center:new google.maps.LatLng(".$trip_meeting_lat.", ".$trip_meeting_lng."),";
+        else
+          echo "center:new google.maps.LatLng(13.736717, 100.523186),";
+      ?>
+    
+      zoom:15
+    }
+    var map=new google.maps.Map(document.getElementById("map"),mapProp);
+    <?php
+    if(strlen($trip_meeting_lat) > 0 && strlen($trip_meeting_lng>0))
+    {
+      echo "var position = new google.maps.LatLng(".$trip_meeting_lat.", ".$trip_meeting_lng.");";
+      echo "placeMarker(position,map);";
+    }
+
+    ?>
+    }
+    function placeMarker(position, map) {
+        marker = new google.maps.Marker({
+        position: position,
+        map: map
+    
+    });
+    map.panTo(position);
+    
+
+  }
+
+  
+  </script>
+      <!--  Google Maps Plugin    -->
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVlIZSpzYkePXCjcm9xRHuFyL2DbKZY0Q&callback=myMap&language=en&region=EN"></script>
+ 
   <noscript>
     <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=111649226022273&ev=PageView&noscript=1" />
   </noscript>

@@ -13,7 +13,7 @@
       $_SESSION['trip_id'] = 0;
     }
 
-    if($edit === 1){
+    if($edit == 1){
       $sql = "SELECT * from trips WHERE trip_id='".$_SESSION['trip_id']."'";
       $result = $conn->query($sql);
       $data = $result->fetch_assoc();
@@ -678,14 +678,14 @@ width: 100%; /*what ever width you want*/
                         <div class="col-md-12 col-sm-12">
                           <div class="container">
                             <select id="num_travelers" onchange="change_num_pass();">
-                                <option value="1" <?php if($edit===1&&$price_max_pass==1) echo "selected=\"selected\""; ?> >1 Person </option>
-                                <option value="2" <?php if($edit===1&&$price_max_pass==2) echo "selected=\"selected\""; ?>>2 Person</option>
-                                <option value="3" <?php if($edit===1&&$price_max_pass==3) echo "selected=\"selected\""; ?>>3 Person</option>
-                                <option value="4" <?php if($edit===1&&$price_max_pass==4) echo "selected=\"selected\""; ?>>4 Person</option>
-                                <option value="5" <?php if($edit===1&&$price_max_pass==5) echo "selected=\"selected\""; ?>>5 Person</option>
-                                <option value="6" <?php if($edit===1&&$price_max_pass==6) echo "selected=\"selected\""; ?>>6 Person</option>
-                                <option value="7" <?php if($edit===1&&$price_max_pass==7) echo "selected=\"selected\""; ?>>7 Person</option>
-                                <option value="8" <?php if($edit===1&&$price_max_pass==8) echo "selected=\"selected\""; ?>>8 Person</option>
+                                <option value="1" <?php if($edit==1&&$price_max_pass==1) echo "selected=\"selected\""; ?> >1 Person </option>
+                                <option value="2" <?php if($edit==1&&$price_max_pass==2) echo "selected=\"selected\""; ?>>2 Person</option>
+                                <option value="3" <?php if($edit==1&&$price_max_pass==3) echo "selected=\"selected\""; ?>>3 Person</option>
+                                <option value="4" <?php if($edit==1&&$price_max_pass==4) echo "selected=\"selected\""; ?>>4 Person</option>
+                                <option value="5" <?php if($edit==1&&$price_max_pass==5) echo "selected=\"selected\""; ?>>5 Person</option>
+                                <option value="6" <?php if($edit==1&&$price_max_pass==6) echo "selected=\"selected\""; ?>>6 Person</option>
+                                <option value="7" <?php if($edit==1&&$price_max_pass==7) echo "selected=\"selected\""; ?>>7 Person</option>
+                                <option value="8" <?php if($edit==1&&$price_max_pass==8) echo "selected=\"selected\""; ?>>8 Person</option>
                             </select>
                           </div>
                         </div> 
@@ -829,7 +829,7 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                               <div id="dvChkChildrenPrice" <?php if($edit==0 || $price_children_allow==0) echo "style=\"display: none\"";?>>
                               <div class="form-group">
                                   <div class="input-group">
-                                    <input [(ngModel)]="destination" type="text" class="form-control" placeholder="0.00" id="price_children" <?php if($edit===1) echo "value=\"".$price_children."\"";?>/> THB (Per Child)
+                                    <input [(ngModel)]="destination" type="text" class="form-control" placeholder="0.00" id="price_children" <?php if($edit==1) echo "value=\"".$price_children."\"";?>/> THB (Per Child)
                                   </div>
                                 </div>
                           </div>
@@ -866,34 +866,34 @@ is recommended for an all-inclusive trip. The price range (shown above) is only 
                     <div class="row">
                     <a href="#"  data-toggle="tooltip" data-placement="top" title="Travelers need to wear appropriate outfits neutral colors, no sleeveless shirts and shorts.The dress code's featured most of these locations;temples, museum, or any official places.">
                           <div class="col-md-4 col-sm-4" align="center">
-                              <input type='checkbox' name='smart_casual' value='1' <?php if($edit===1 && $trip_condition_casual==1) echo "checked";?> id="smart_casual"/><label for="smart_casual"></label> 
+                              <input type='checkbox' name='smart_casual' value='1' <?php if($edit==1 && $trip_condition_casual==1) echo "checked";?> id="smart_casual"/><label for="smart_casual"></label> 
                           </div>
                           </a>
                         <a href="#"  data-toggle="tooltip" data-placement="top" title="Travelers need to be fit and firm, so it will be easier for them to complete your trip. Select this condition, if your trip featured these following activities; boxing, hiking, trekking, kayaking, rafting, etc.">
                           <div class="col-md-4 col-sm-4" align="center">
-                           <input type='checkbox' name='physical_strength' <?php if($edit===1 && $trip_condition_physical==1) echo "checked";?> value='1' id="physical_strength"/><label for="physical_strength"></label> 
+                           <input type='checkbox' name='physical_strength' <?php if($edit==1 && $trip_condition_physical==1) echo "checked";?> value='1' id="physical_strength"/><label for="physical_strength"></label> 
                           </div>
                         </a>
                         <a href="#"  data-toggle="tooltip" data-placement="top" title="Select this condition, if your trip has alternative choices for vegetable meals.">
                         <div class="col-md-4 col-sm-4" align="center">
-                           <input type='checkbox' name='vegan' value='1' <?php if($edit===1 && $trip_condition_vegan==1) echo "checked";?> id="vegan"/><label for="vegan"></label> 
+                           <input type='checkbox' name='vegan' value='1' <?php if($edit==1 && $trip_condition_vegan==1) echo "checked";?> id="vegan"/><label for="vegan"></label> 
                         </div>
                         </a>
                     </div>
                     <div class="row">
                          <a href="#"  data-toggle="tooltip" data-placement="top" title="Any activities that travelers can enjoy with their family members and is good with kids, such as going to an amusement park, watching a performance, joining a pottery workshop, etc, can be considered to this condition.">
                           <div class="col-md-4 col-sm-4" align="center">
-                              <input type='checkbox' name='children' value='1' <?php if($edit===1 && $trip_condition_children==1) echo "checked";?> id="children"/><label for="children"></label> 
+                              <input type='checkbox' name='children' value='1' <?php if($edit==1 && $trip_condition_children==1) echo "checked";?> id="children"/><label for="children"></label> 
                           </div>
                         </a>
                         <a href="#"  data-toggle="tooltip" data-placement="top" title="Although you stick to your listed itinerary, your trip may be adjusted accordingly to your travelers.">
                           <div class="col-md-4 col-sm-4" align="center">
-                              <input type='checkbox' name='flexible' value='1' <?php if($edit===1 && $trip_condition_flexible==1) echo "checked";?> id="flexible"/><label for="flexible"></label> 
+                              <input type='checkbox' name='flexible' value='1' <?php if($edit==1 && $trip_condition_flexible==1) echo "checked";?> id="flexible"/><label for="flexible"></label> 
                           </div>
                         </a>
                         <a href="#"  data-toggle="tooltip" data-placement="top" title="For any activities places of your trip can be accessed seasonally for example, trekking to the top of Khitchakut mountain, visiting a tropical fruit farm, sightseeing at a national park, and etc, please select this condition.">
                         <div class="col-md-4 col-sm-4" align="center">
-                           <input type='checkbox' name='seasonal' value='1' <?php if($edit===1 && $trip_condition_seasonal==1) echo "checked";?> id="seasonal"/><label for="seasonal"></label> 
+                           <input type='checkbox' name='seasonal' value='1' <?php if($edit==1 && $trip_condition_seasonal==1) echo "checked";?> id="seasonal"/><label for="seasonal"></label> 
                         </div>
                         </a>
                     </div>
@@ -1115,12 +1115,11 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
                 form_basic.append('trip_sum',tripSum);
                 form_basic.append('trip_dest',tripDest);
                 form_basic.append('trip_activity',tripAct);
-                form_basic.append('trip_cover',cover);
+                form_basic.append('trip_cover',cover);grW03pe8WvT6H6802NMmKgmNFb82
                 form_basic.append('tab','basic');
                 $.ajax({
                   url: 'newtrip_backend.php', 
                   dataType: 'text',  // what to expect back from the PHP script, if anything
-                  cache: false,
                   contentType: false,
                   processData: false,
                   data: form_basic,                         
@@ -1163,7 +1162,7 @@ When you've completed your trip listing, click 'Submit for approval'. Your trip 
             existing_file = output;
             added_file = new Array();
             <?php
-              if($edit === 1){
+              if($edit == 1){
                 foreach ($photo_arr as $photo)
                   echo "added_file.push('".$photo."');";
               }
@@ -1364,7 +1363,7 @@ materialKit.initSliders();
     }
     var map=new google.maps.Map(document.getElementById("map"),mapProp);
     <?php
-      if ($edit===1 && $trip_meeting_addr){
+      if ($edit==1 && $trip_meeting_addr){
         echo "var position = new google.maps.LatLng(".$trip_meeting_lat.", ".$trip_meeting_lng.");";
         echo "placeMarker(position,map);";
         echo "var isClick=true;";
@@ -1425,7 +1424,7 @@ google.maps.event.addListener( marker, 'dragend', function ( event ) {
         var latlng = {lat: parseFloat(x.value), lng: parseFloat(y.value)};
 
         geocoder.geocode({'location': latlng}, function(results, status) {
-          if (status === 'OK') {
+          if (status == 'OK') {
             if (results[0]) {
               place1.value = results[0].formatted_address;
             } else {
@@ -1469,7 +1468,7 @@ $(function () {
       }
       var total_price = Array();
       var unit_price = Array();
-      if (price_type === 'basic'){
+      if (price_type == 'basic'){
         var u = $('#price_per_basic').val();
         var t = u*max_pass;
         unit_price.push(u);
@@ -1529,7 +1528,7 @@ $(function () {
 
   function setPriceText(t)
   {
-    if(t==='include'){
+    if(t=='include'){
       var text =  "<i class=\"material-icons\">local_dining</i>&nbsp;<i class=\"material-icons\">subway</i>&nbsp;<i class=\"material-icons\">local_offer</i><p>Expenses, occur during a trip, are mainly included <br/> - Public or private transportation fares : taxi, bts, mrt, etc.(Please estimate the cost of gasoline or vehicle rental fee, in case of using a private car) <br/> - Foods; Meal(s) during the trip. (Please note that alcohol is always excluded) <br/> - Admission fee: Amusement park, gallery, shows, and etc.</p>";
       document.getElementById("price_text").innerHTML = text;
     }else{
@@ -1540,7 +1539,7 @@ $(function () {
   
   function setPriceCal(t)
   {
-    if(t==='basic'){
+    if(t=='basic'){
       var text="<div class=\"card\"><div class=\"card-content\"><div class=\"row\" style=\"margin:2px;\"><div class=\"col-md-6 col-sm-6\"><input class=\"form-control\" type=\"text\" id=\"price_per_basic\" placeholder=\"0.00\" oninput=\"calculateBasic();\">Price/Person</div><div class=\"col-md-6 col-sm-6\"><div id=\"total_basic\">0.00 - 0.00</div>&nbsp;THB (Total/Trip)</div></div></div></div>"
      
       $('#price_cal').html(text);
@@ -1688,7 +1687,7 @@ function newtrip_submit(){
     $(document).ready(function(){
     $('#datePick').multiDatesPicker();
     <?php
-      if($edit===1){
+      if($edit==1){
         for($i=0;$i<sizeof($date_array);$i++){
           echo "$('#datePick').multiDatesPicker('toggleDate','".$date_array[$i]."');";
         }
