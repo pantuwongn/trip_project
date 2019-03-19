@@ -727,7 +727,7 @@ width: 100%; /*what ever width you want*/
                           <div class="col-md-6 col-sm-6">
                         <div class="container" id="price_cal">
                         <?php 
-                          if($edit==0  || ($price_type=="basic") || ($price_type!="basic" && $price_type!="advance")){
+                          if($edit==0  || ($price_type!="basic" && $price_type!="advance")){
                             echo "<div class=\"card\">
                             <div class=\"card-content\">
                               <div class=\"row\" style=\"margin:2px;\">
