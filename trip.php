@@ -854,7 +854,12 @@
       $('#datePick').datepicker({beforeShowDay: unavailable, dateFormat: "mm/dd/yy" });
       num_adult = 0;
       num_children = 0;
-    <?php echo "price_children=".$price_children.";"; ?>
+    <?php 
+      if($price_children_allow==1)
+        echo "price_children=".$price_children.";"; 
+      else
+        echo "price_children=0.0;";
+    ?>
     <?php echo "max_pass=".$price_max_pass.";"; ?>
     <?php echo "price_type='".$price_type."';"; ?>
     <?php echo "unit1=".$price_unit1.";"; ?>
