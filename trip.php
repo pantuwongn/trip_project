@@ -656,9 +656,9 @@
                        <h4><b>Trip Date</b></h4>
                     <div id="datePick"></div>
                   </div>
-                    <h3 class="card-title" id="total_price">0.00 <small>THB</small></h3>
+                    <h3 class="card-title" id="total_price_text">0.00 <small>THB</small></h3>
                     <ul>
-                        <li><p id="adult_price">0 Adults ( 0.00 THB )</p><br>
+                        <li><p id="adult_price_text">0 Adults ( 0.00 THB )</p><br>
                           <button class="btn btn-fab btn-round btn-info" data-dir="dwn" (click)="adultNumberSpinner('down')" onclick="adultNumberSpinner('down');"> <i class="material-icons">remove</i> </button>
                           <button class="btn btn-fab btn-round btn-info" data-dir="up" (click)="adultNumberSpinner('up')" onclick="adultNumberSpinner('up');"> <i class="material-icons">add</i> </button>
                         </li>
@@ -666,9 +666,9 @@
                         <br>
                         <div *ngIf="childrenTraveler!=0; then thenBlock else elseBlock"></div>
                         <ng-template #thenBlock>
-                        <p id="children_price">0 Children ( 0.00 THB )</p><br>
-                          <button class="btn btn-fab btn-round btn-info" data-dir="dwn" (click)="childrenNumberSpinner('down')" onclick="childrenNumberSpinner('down');"> <i class="material-icons">remove</i> </button>
-                          <button class="btn btn-fab btn-round btn-info" data-dir="up" (click)="childrenNumberSpinner('up')" onclick="childrenNumberSpinner('up');"> <i class="material-icons">add</i> </button></ng-template>
+                        <p id="children_price_text">0 Children ( 0.00 THB )</p><br>
+                          <button class="btn btn-fab btn-round btn-info" data-dir="dwn" (click)="childrenNumberSpinner('down')" onclick="childrenNumberSpinner('down');" <?php if($price_children_allow==0) echo "disabled";?>> <i class="material-icons">remove</i> </button>
+                          <button class="btn btn-fab btn-round btn-info" data-dir="up" (click)="childrenNumberSpinner('up')" onclick="childrenNumberSpinner('up');" <?php if($price_children_allow==0) echo "disabled";?>> <i class="material-icons">add</i> </button></ng-template>
                         <ng-template #elseBlock></ng-template>
                         </li>
                         <li><button class="btn btn-warning btn-round" (click)="onReserved()" onclick="bookProceed();">Book now</button></li>
@@ -730,6 +730,7 @@
   <script src="js/jquery-ui.js"></script>
   <script>
     function adultNumberSpinner(mode){
+     
       if(mode=='up'){
         if (num_adult+num_children+1 > max_pass){
           alert("Exceed maximum passenger!!!!");
@@ -760,6 +761,7 @@
       }
     }
     function calculate_price(){
+      
       if(price_type=="basic"){
         adult_price = num_adult*unit1;
       }else{
@@ -780,17 +782,18 @@
         }else if(num_adult == 8){
           adult_price = total8;
         }
-        var adult_text = num_adult+" Adults ("+adult_price+" THB)";
-        $('#adult_price').html(adult_text);
+      }
+        
+        var adult_text = num_adult+" Adults ("+adult_price.toFixed(2)+" THB)";
+        $('#adult_price_text').html(adult_text);
 
         children_price = num_children * price_children;
-        var children_text = num_children+" Children ("+children_price+" THB)";
-        $('#children_price').html(children_text);
+        var children_text = num_children+" Children ("+children_price.toFixed(2)+" THB)";
+        $('#children_price_text').html(children_text);
 
         var total_price = adult_price + children_price;
-        $('#total_price').html(total_price);
+        $('#total_price_text').html(total_price.toFixed(2));
 
-      }
     }
   </script>
   <script>
