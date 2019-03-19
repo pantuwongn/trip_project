@@ -127,6 +127,8 @@
   <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
   <link href="./assets/css/radiobuttons.css" rel="stylesheet" />
   <link href="https://cdn.rawgit.com/sachinchoolur/lightgallery.js/master/dist/css/lightgallery.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/jquery-ui.multidatespicker.css">
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
         <style>
             body{
                 background-color: #152836
@@ -422,7 +424,7 @@
                 <img src="<?php echo $picture; ?>" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <div class="name">
-                <h3 class="title"><?php echo $firstname." ".$lastname; ?></h3>
+                <h3 class="title"><?php echo $firstname." ".$lastname ?></h3>
                 <h6>Level 3</h6>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-dribbble"><i class="fa fa-dribbble"></i></a>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
@@ -638,10 +640,10 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sd-4">
                 <div class="card card-pricing">
-                  <div class="card-body ">
+                  <div class="card-body" align="center">
                   <div class="form-group">
-                    <label class="label-control">Date Picker</label>
-                    <input type="text" class="form-control datepicker" value="10/10/2016">
+                       <h4><b>Trip Date</b></h4>
+                    <div id="datePick"></div>
                   </div>
                     <h3 class="card-title" id="total_price">0.00<small>THB</small></h3>
                     <ul>
@@ -713,6 +715,8 @@
 <script>
     lightGallery(document.getElementById('lightgallery'));
 </script>
+<script src="js/jquery-ui.multidatespicker.js"></script>
+  <script src="js/jquery-ui.js"></script>
   <script>
     function adultNumberSpinner(mode){
       if(mode=='up'){
@@ -802,6 +806,29 @@
     var unit8;
     var total8;
     $(document).ready(function() {
+      <?php 
+        echo "availableDates = [";
+        $first = true;
+        foreach($date_array as $d){
+          if(!$first){
+            echo ",";
+          }else{
+            $first=false;
+          }
+          echo "'".$d."'";
+        }
+        echo "];";
+      ?>
+    function unavailable(date) {
+        dmy =  ('0' + (date.getMonth() + 1)).slice(-2) + "/" + ('0' + date.getDate()).slice(-2) + "/" + date.getFullYear();
+        if ($.inArray(dmy, availableDates) == -1) {
+            return [false, "" , "Unavailable"];
+        } else {
+            return [true, ""];
+        }
+    }
+
+      $('#datePick').datepicker({beforeShowDay: unavailable});
       num_adult = 0;
       num_children = 0;
     <?php echo "price_children=".$price_children.";"; ?>
