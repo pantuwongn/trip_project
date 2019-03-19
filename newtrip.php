@@ -707,7 +707,7 @@ width: 100%; /*what ever width you want*/
                               <label class="form-check-label">
                                 <input class="form-check-input" type="radio" name="price_type" id="basic_price" value="basic_price" 
                                     <?php
-                                      if($edit==0 || ($price_type!="basic" && $price_type!="advance")) echo "checked"; ?>  onclick="setPriceCal('basic');"> Basic Pricing
+                                      if($edit==0 || ($price_type=="basic") || ($price_type!="basic" && $price_type!="advance")) echo "checked"; ?>  onclick="setPriceCal('basic');"> Basic Pricing
                                   <span class="circle">
                                   <span class="check"></span>
                                   </span>
@@ -727,7 +727,7 @@ width: 100%; /*what ever width you want*/
                           <div class="col-md-6 col-sm-6">
                         <div class="container" id="price_cal">
                         <?php 
-                          if($edit==0 || ($price_type!="basic" && $price_type!="advance")){
+                          if($edit==0  || ($price_type=="basic") || ($price_type!="basic" && $price_type!="advance")){
                             echo "<div class=\"card\">
                             <div class=\"card-content\">
                               <div class=\"row\" style=\"margin:2px;\">
