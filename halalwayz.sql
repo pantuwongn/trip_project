@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2019 at 11:58 AM
+-- Generation Time: Mar 19, 2019 at 09:40 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -32,7 +32,7 @@ CREATE TABLE `trips` (
   `trip_id` int(11) NOT NULL,
   `trip_type_id` int(11) NOT NULL,
   `vehicle_id` int(11) NOT NULL,
-  `users_user_id` text NOT NULL,
+  `users_user_id` varchar(25) NOT NULL,
   `trip_name` text NOT NULL,
   `trip_sum` text NOT NULL,
   `trip_dest` text NOT NULL,
@@ -134,6 +134,7 @@ CREATE TABLE `trip_reservation` (
   `trip_res_adult` int(11) NOT NULL,
   `trip_res_child` int(11) NOT NULL,
   `trip_res_date` date NOT NULL,
+  `trip_res_title` varchar(10) NOT NULL,
   `trip_res_fn` varchar(100) NOT NULL,
   `trip_res_ln` varchar(100) NOT NULL,
   `trip_res_email` varchar(100) NOT NULL,
@@ -141,7 +142,7 @@ CREATE TABLE `trip_reservation` (
   `trip_res_country` varchar(50) NOT NULL,
   `trip_res_payment_method` varchar(30) NOT NULL,
   `trip_res_payment_status` int(11) NOT NULL DEFAULT '0',
-  `trip_res_datetime` datetime NOT NULL,
+  `trip_res_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `trip_res_fee` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

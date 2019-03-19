@@ -83,6 +83,16 @@
     $price_children_allow = $data['price_children_allow'];
     $price_children = $data['price_children'];
 
+    $sql = "SELECT * from trip_reservation WHERE trip_id='".$_SESSION['trip_id']."'";
+    $result = $conn->query($sql);
+    $res_date_array = array();
+    while($row=$result->fetch_assoc()){
+      $d = $row['trip_res_date'];
+      $data = explode('-',$d);
+      $d1 = $data[1]."/".$data[2]."/".$data[0];
+      array_push($res_date_array,$d1);
+    }
+
     $sql = "SELECT * from trip_date WHERE trip_id='".$_SESSION['trip_id']."'";
     $result = $conn->query($sql);
     $date_array = array();
@@ -90,7 +100,8 @@
       $d = $row['trip_date'];
       $data = explode('-',$d);
       $d1 = $data[1]."/".$data[2]."/".$data[0];
-      array_push($date_array,$d1);
+      if (!in_array($d1,$res_date_array))
+          array_push($date_array,$d1);
     }
   
     $sql="SELECT * FROM users WHERE user_id = '".$users_user_id."' LIMIT 1";
@@ -645,7 +656,7 @@
                        <h4><b>Trip Date</b></h4>
                     <div id="datePick"></div>
                   </div>
-                    <h3 class="card-title" id="total_price">0.00<small>THB</small></h3>
+                    <h3 class="card-title" id="total_price">0.00 <small>THB</small></h3>
                     <ul>
                         <li><p id="adult_price">0 Adults ( 0.00 THB )</p><br>
                           <button class="btn btn-fab btn-round btn-info" data-dir="dwn" (click)="adultNumberSpinner('down')" onclick="adultNumberSpinner('down');"> <i class="material-icons">remove</i> </button>
@@ -660,7 +671,7 @@
                           <button class="btn btn-fab btn-round btn-info" data-dir="up" (click)="childrenNumberSpinner('up')" onclick="childrenNumberSpinner('up');"> <i class="material-icons">add</i> </button></ng-template>
                         <ng-template #elseBlock></ng-template>
                         </li>
-                        <li><button class="btn btn-warning btn-round" (click)="onReserved()">Book now</button></li>
+                        <li><button class="btn btn-warning btn-round" (click)="onReserved()" onclick="bookProceed();">Book now</button></li>
                     </ul>
                   </div>
                 </div>
@@ -749,7 +760,6 @@
       }
     }
     function calculate_price(){
-      var adult_price = 0.0;
       if(price_type=="basic"){
         adult_price = num_adult*unit1;
       }else{
@@ -773,7 +783,7 @@
         var adult_text = num_adult+" Adults ("+adult_price+" THB)";
         $('#adult_price').html(adult_text);
 
-        var children_price = num_children * price_children;
+        children_price = num_children * price_children;
         var children_text = num_children+" Children ("+children_price+" THB)";
         $('#children_price').html(children_text);
 
@@ -781,6 +791,14 @@
         $('#total_price').html(total_price);
 
       }
+    }
+  </script>
+  <script>
+    function bookProceed(){
+      <?php echo "var trip_id=".$_GET['trip_id'].";";?>
+      var dates = $('#datePick').datepicker().val();
+      var urlText = "trip_detail.php?trip_id="+trip_id+"&num_adult="+num_adult+"&num_children="+num_children+"&adult_price="+adult_price+"&children_price="+children_price+"&date="+dates;
+      window.location = urlText;
     }
   </script>
   <script>
@@ -805,6 +823,8 @@
     var total7;
     var unit8;
     var total8;
+    var adult_price = 0.0;
+    var children_price=0.0;
     $(document).ready(function() {
       <?php 
         echo "availableDates = [";
@@ -828,7 +848,7 @@
         }
     }
 
-      $('#datePick').datepicker({beforeShowDay: unavailable});
+      $('#datePick').datepicker({beforeShowDay: unavailable, dateFormat: "mm/dd/yy" });
       num_adult = 0;
       num_children = 0;
     <?php echo "price_children=".$price_children.";"; ?>
