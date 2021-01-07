@@ -15,13 +15,13 @@ jobs:
 #    needs: test
     steps:
       - uses: actions/checkout@v2
-      - name: Push to server, deploy, and restart pubranker
+#      - name: Push to server, deploy, and restart pubranker
 #        uses: appleboy/ssh-action@master
-        with:
+#        with:
 #          host: ${{ secrets.SERVER_IP }}
 #          username: ${{ secrets.SERVER_USERNAME }}
 #          password: ${{ secrets.SERVER_PASSWORD }}
-          script: |
-            echo "Will be finished soon."
+#          script: |
+#            echo "Will be finished soon."
 #            cd ${{ secrets.PROJECT_PATH }}
 #            ${{ secrets.SCRIPT_FILE }}
